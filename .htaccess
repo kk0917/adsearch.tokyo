@@ -1,2 +1,3 @@
 #RewriteEngine On
+#RewriteCond %{REQUEST_FILENAME} !^/web/
 #RewriteRule ^(.*)$ /web/$1 [L]
