@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %} | adsearch.tokyo管理システム{% endblock %}</title>
+  {% block stylesheets %}
+    <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+  {% endblock %}
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">adsearch.tokyo管理システム</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a class="nav-menu" href="/ja/blog/">
+                ログイン中：kkkk
+              </a>
+            </li>
+            <li>
+              <a class="nav-menu" href="/ja/blog/">
+                ログアウト
+              </a>
+            </li>
+          </ul>
+      </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container body-container">
+    
+    {% block body %}{% endblock %}
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div id="footer-copyright" class="copyright">
+          <p>© 2017 - The kkkk Project</p>
+      </div>
+      </div>
+    </div>
+  </footer>
+
+  {% block javascripts %}
+    <script src="/web/css/jquery-1.12.4.min.js"></script>
+    <script src="/web/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+  {% endblock %}
+</body>
+</html>
