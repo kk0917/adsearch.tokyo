@@ -18,6 +18,10 @@ $manager = new ManagerRepository();
 $manager->setAllProperties('INSERT');
 $errors = $manager->validate();
 
+// パスワードを保護するためにハッシュ化
+$manager->setPassword(password_hash($manager->getPassword(), PASSWORD_DEFAULT));
+$manager->setPasswordConfirm('');
+
 if (count($errors)) {
     echo $twig->render('backend/staff/add.html.twig', [
         'manager' => $manager,
