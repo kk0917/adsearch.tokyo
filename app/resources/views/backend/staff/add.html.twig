@@ -16,6 +16,18 @@
   </nav>
 
   <h4 class="page-header">管理者追加</h4>
+
+  {#エラー時のメッセージ#}
+  {% if errors %}
+    <div class="error-area">
+      <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
   <form action="confirm.php" method="post" class="form-horizontal">
     <table>
       <tbody>
@@ -34,7 +46,9 @@
           </th>
           <td>
             <p class="info">半角英数字8文字以上</p>
-            <input type="password" name="password" class="form-control">
+            <input type="password" name="password" class="form-control"><br>
+            <p>確認のためパスワードをもう一度入力してください</p>
+            <input type="password" name="password_confirm" class="form-control">
           </td>
         </tr>
         <tr>

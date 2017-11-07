@@ -1,5 +1,10 @@
 {
     "require": {
         "twig/twig": "=1.9.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppBundle\\": "src/AppBundle/"
+        }
     }
 }
