@@ -99,7 +99,7 @@ class ManagerRepository extends Manager
 
         switch ($type) {
             case 'SELECT':
-                $sql = 'SELECT * FROM manager ORDER BY id';
+                $sql = 'SELECT * FROM manager WHERE is_active = TRUE ORDER BY id';
 
                 return $dbObject->run('SELECT', $sql);
                 break;
@@ -144,6 +144,15 @@ class ManagerRepository extends Manager
 
                 $dbObject->run('INSERT', $sql, $values);
                 break;
+
+            case 'DELETE':
+                $sql = 'UPDATE manager SET is_active = FALSE WHERE id = ?';
+
+                $value = [
+                    $this->getId()
+                ];
+
+                $dbObject->run('DELETE', $sql, $value);
         }
     }
 }
