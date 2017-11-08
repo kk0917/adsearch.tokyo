@@ -13,7 +13,7 @@ use AppBundle\Common\Config;
 /**
  * データベースへの接続情報をセット
  */
-Config::set('dsn', 'mysql:host=localhost;dbname=adsearch.tokyo');
+Config::set('dsn', 'mysql:host=localhost;dbname=adsearch.tokyo;charset=utf8');
 Config::set('user', 'root');
 Config::set('password', 'admin');
 
@@ -23,14 +23,14 @@ Config::set('password', 'admin');
 class DatabaseAccessObject
 {
     /**
-     * @var PDO $dbh データベースハンドラ
+     * @var \PDO $dbh データベースハンドラ
      */
     private $dbh;
 
     /**
      * データベースへ接続する
      *
-     * @throws PDOException
+     * @throws \PDOException
      */
     public function __construct()
     {
@@ -42,7 +42,6 @@ class DatabaseAccessObject
         // DB接続とエラー発生時のエラーモード設定
         $this->dbh  = new \PDO($dsn, $user, $password);
         $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->dbh->query('SET NAMES utf8');
     }
 
     /**

@@ -2,6 +2,21 @@ h4 {
   margin-top: 30px;
   margin-left: 10px;
 }
+button a {
+  text-decoration: none;
+}
+button a:link  {  
+  text-decoration: none;   
+}  
+button a:visited   {  
+  text-decoration: none;  
+}  
+button a:hover {  
+  text-decoration: underline;  
+}  
+button a:active    {  
+  text-decoration: none;  
+} 
 
 footer {
   background: #ecf0f1;
@@ -70,11 +85,6 @@ input[type="text"].short {
 }
 
 input[type="submit"] {
-    padding: 10px 30px;
-    background-color: #2d3f50;
-    color: #fff;
-    border-style: none;
-    border-radius: 5px;
     display: block;
     margin: 0 auto;
 }
@@ -136,4 +146,10 @@ input[type="submit"] {
 
 .previous a {
   cursor: pointer;
+}
+
+.button-center {
+  display: block;
+  width: 150px;
+  margin: 0 auto;
 }
