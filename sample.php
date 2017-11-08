@@ -7,7 +7,7 @@ $loader   = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT'] . '/app/resourc
 $twig     = new Twig_Environment($loader);
 //$template = $twig->loadTemplate('sample.html.twig');
 
-echo $twig->render('backend/index.html.twig', [
+echo $twig->render('admin/index.html.twig', [
     'title'    => 'sample',
     'message'  => 'My Webpage!',
 ]);

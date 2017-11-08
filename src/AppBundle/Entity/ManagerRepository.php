@@ -21,19 +21,23 @@ class ManagerRepository extends Manager
      */
     public function setAllProperties($type)
     {
-        $this->setUsername(htmlentities($_POST['user_name'], ENT_QUOTES, 'UTF-8'));
-        $this->setPassword(htmlentities($_POST['password'], ENT_QUOTES, 'UTF-8'));
-        $this->setPasswordConfirm((htmlentities($_POST['password_confirm'], ENT_QUOTES, 'UTF-8')));
-        $this->setLastName(htmlentities($_POST['last_name'], ENT_QUOTES, 'UTF-8'));
-        $this->setFirstName(htmlentities($_POST['first_name'], ENT_QUOTES, 'UTF-8'));
-        $this->setRemarks(htmlentities($_POST['remarks'], ENT_QUOTES, 'UTF-8'));
+        if (count($_POST)) {
+            $this->setUsername(htmlentities($_POST['user_name'], ENT_QUOTES, 'UTF-8'));
+            $this->setPassword(htmlentities($_POST['password'], ENT_QUOTES, 'UTF-8'));
+            if (array_key_exists('password_confirm', $_POST)) {
+                $this->setPasswordConfirm((htmlentities($_POST['password_confirm'], ENT_QUOTES, 'UTF-8')));
+            }
+            $this->setLastName(htmlentities($_POST['last_name'], ENT_QUOTES, 'UTF-8'));
+            $this->setFirstName(htmlentities($_POST['first_name'], ENT_QUOTES, 'UTF-8'));
+            $this->setRemarks(htmlentities($_POST['remarks'], ENT_QUOTES, 'UTF-8'));
 
-        $date = new \DateTime();
-        if ($type == 'INSERT') {
-            $this->setCreatedAt($date->format('Y-m-d H:i:s'));
+            $date = new \DateTime();
+            if ($type == 'INSERT') {
+                $this->setCreatedAt($date->format('Y-m-d H:i:s'));
 
-        } elseif ($type == 'UPDATE') {
-            $this->setUpdatedAt($date->format('Y-m-d H:i:s'));
+            } elseif ($type == 'UPDATE') {
+                $this->setUpdatedAt($date->format('Y-m-d H:i:s'));
+            }
         }
     }
     /**
@@ -84,5 +88,51 @@ class ManagerRepository extends Manager
         }
 
         return $error;
+    }
+
+    public function execute($type)
+    {
+        $sql = 'INSERT INTO `manager` (
+                  `user_name`,
+                  `password`,
+                  `password_updated_at`,
+                  `last_name`,
+                  `first_name`,
+                  `remarks`,
+                  `is_active`,
+                  `is_locked`,
+                  `authentication_failure_count`,
+                  `created_at`,
+                  `updated_at`,
+                  `updated_manager_id`
+                ) VALUES (
+                  ?,
+                  ?,
+                  NULL,
+                  ?,
+                  ?,
+                  ?,
+                  1,
+                  0,
+                  NULL,
+                  ?,
+                  NULL,
+                  NULL
+              )';
+
+        $values = [];
+        if ($type == 'INSERT') {
+            $values = [
+                $this->getUsername(),
+                $this->getPassword(),
+                $this->getLastName(),
+                $this->getFirstName(),
+                $this->getRemarks(),
+                $this->getCreatedAt(),
+            ];
+        }
+
+        $dbObject = new DatabaseAccessObject();
+        $results = $dbObject->run('INSERT', $sql, $values);
     }
 }

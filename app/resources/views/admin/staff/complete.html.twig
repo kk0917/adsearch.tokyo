@@ -1,0 +1,17 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}管理者追加 完了画面{{ parent() }}{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active">Home</li>
+    <li class="active">管理者一覧</li>
+    <li class="active">管理者追加</li>
+  </ol>
+
+  <h4 class="page-header">管理者追加 完了画面</h4>
+  <p>{{ username }} さんを追加しました。</p>
+  <button class="btn btn-default button-center"><a href="/backend/index.php">トップページに戻る</a></button>
+
+  
+{% endblock %}
