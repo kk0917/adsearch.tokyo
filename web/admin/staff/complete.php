@@ -17,10 +17,8 @@ $managerRepository = new ManagerRepository();
 
 $managerRepository->setAllProperties('INSERT');
 
-// POSTで値渡しのため念のため完了画面でもバリデート
-// & このページに直接アクセスしてきた場合はエラー画面遷移
-$errors = $managerRepository->validate();
-if (count($_POST) == 0 || count($errors)) {
+// このページに直接アクセスしてきた場合はエラー画面遷移
+if (count($_POST) == 0) {
     echo $twig->render('admin/error.html.twig', [
         'error' => '操作に誤りがありました。初めからやり直してください。',
     ]);

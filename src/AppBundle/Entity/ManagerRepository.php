@@ -92,47 +92,67 @@ class ManagerRepository extends Manager
 
     public function execute($type)
     {
-        $sql = 'INSERT INTO `manager` (
-                  `user_name`,
-                  `password`,
-                  `password_updated_at`,
-                  `last_name`,
-                  `first_name`,
-                  `remarks`,
-                  `is_active`,
-                  `is_locked`,
-                  `authentication_failure_count`,
-                  `created_at`,
-                  `updated_at`,
-                  `updated_manager_id`
-                ) VALUES (
-                  ?,
-                  ?,
-                  NULL,
-                  ?,
-                  ?,
-                  ?,
-                  1,
-                  0,
-                  NULL,
-                  ?,
-                  NULL,
-                  NULL
-              )';
-
-        $values = [];
-        if ($type == 'INSERT') {
-            $values = [
-                $this->getUsername(),
-                $this->getPassword(),
-                $this->getLastName(),
-                $this->getFirstName(),
-                $this->getRemarks(),
-                $this->getCreatedAt(),
-            ];
-        }
-
         $dbObject = new DatabaseAccessObject();
-        $results = $dbObject->run('INSERT', $sql, $values);
+
+        $sql = '';
+        $values = [];
+
+        switch ($type) {
+            case 'SELECT':
+                $sql = 'SELECT * FROM manager WHERE is_active = TRUE ORDER BY id';
+
+                return $dbObject->run('SELECT', $sql);
+                break;
+
+            case 'INSERT':
+                $sql = 'INSERT INTO `manager` (
+                          `user_name`,
+                          `password`,
+                          `password_updated_at`,
+                          `last_name`,
+                          `first_name`,
+                          `remarks`,
+                          `is_active`,
+                          `is_locked`,
+                          `authentication_failure_count`,
+                          `created_at`,
+                          `updated_at`,
+                          `updated_manager_id`
+                        ) VALUES (
+                          ?,
+                          ?,
+                          NULL,
+                          ?,
+                          ?,
+                          ?,
+                          1,
+                          0,
+                          NULL,
+                          ?,
+                          NULL,
+                          NULL
+                      )';
+
+                $values = [
+                    $this->getUsername(),
+                    $this->getPassword(),
+                    $this->getLastName(),
+                    $this->getFirstName(),
+                    $this->getRemarks(),
+                    $this->getCreatedAt(),
+                ];
+
+                $dbObject->run('INSERT', $sql, $values);
+                break;
+
+            case 'DELETE':
+                $sql = 'UPDATE manager SET is_active = FALSE WHERE id = ?';
+
+                $value = [
+                    $this->getId()
+                ];
+
+                $dbObject->run('DELETE', $sql, $value);
+        }
     }
 }
