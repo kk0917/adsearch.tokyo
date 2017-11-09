@@ -67,15 +67,16 @@
       document.getElementById('execDelete').addEventListener('click', function() {
         var ajax = new XMLHttpRequest();
         
-        ajax.onreadystatechange = function () {
+        ajax.open('GET', '/admin/staff/delete.php?id=' + this.getAttribute('value'), true);
+        ajax.onreadystatechange = execDelete;
+        ajax.send(null);
+        
+        function execDelete() {
           if(ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
             window.alert('削除しました');
             location.reload();
           }
         };
-        
-        ajax.open('GET', '/admin/staff/delete.php?id=' + this.getAttribute('value'), true);
-        ajax.send(null);
       }, false);
     }, false);
   });
