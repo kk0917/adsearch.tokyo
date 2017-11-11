@@ -15,7 +15,7 @@ $twig   = new Twig_Environment($loader);
 
 $managerRepository = new ManagerRepository();
 
-$managerRepository->setAllProperties('INSERT');
+$managerRepository->setProperties('INSERT');
 
 // このページに直接アクセスしてきた場合はエラー画面遷移
 if (count($_POST) == 0) {
@@ -27,7 +27,7 @@ if (count($_POST) == 0) {
 
 $managerRepository->execute('INSERT');
 
-echo $twig->render('admin/staff/complete.html.twig', [
+echo $twig->render('admin/staff/addComplete.html.twig', [
     'username' => $managerRepository->getUsername(),
 ]);
 

@@ -40,7 +40,7 @@ class DatabaseAccessObject
         $password   = Config::get('password'); // 会社テスト環境用
 
         // DB接続とエラー発生時のエラーモード設定
-        $this->dbh  = new \PDO($dsn, $user, $password);
+        $this->dbh = new \PDO($dsn, $user, $password);
         $this->dbh->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
     }
 
@@ -76,6 +76,9 @@ class DatabaseAccessObject
 
         if ($type == 'SELECT') {
             return $stmt->fetchAll();
+
+        } elseif ($type == 'SELECT_BY_ONE') {
+            return $stmt->fetch();
         }
     }
 

@@ -36,7 +36,7 @@
             <td>{{ manager.last_name }} {{ manager.first_name }}</td>
             <td>{{ manager.remarks }}</td>
             <td>
-              <button class="btn btn-default btn-sm" value="{{ manager.id }}">編集</button>
+              <button class="btn btn-default btn-sm edit" value="{{ manager.id }}">編集</button>
               <button class="btn btn-default btn-sm delete" value="{{ manager.id }}">削除</button>
             </td>
           </tr>
@@ -44,8 +44,8 @@
       </tbody>
     </table>
   </div>
-
-  <button class="btn btn-primary button-center">管理者を追加する</button>
+  <br>
+  <button class="btn btn-primary button-center add">管理者を追加する</button>
 
   <div id="modalTemplate">
     <p></p>
@@ -56,5 +56,5 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="/js/common.js"></script>
+  <script src="/js/manager.js"></script>
 {% endblock %}
