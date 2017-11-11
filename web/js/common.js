@@ -1,5 +1,20 @@
 // for manager function
 (function () {
+  /**
+   * 編集画面
+   *****************************************************************************************************/
+
+  // 編集ボタンクリック時の編集画面ページ遷移
+  document.querySelectorAll('.edit').forEach(function (editButton) {
+    editButton.addEventListener('click', function() {
+      window.location.assign('/admin/staff/edit.php?id=' + editButton.getAttribute('value'));
+    }, false);
+  });
+
+  /**
+   * 削除機能
+   *****************************************************************************************************/
+
   // 削除前確認画面モーダルウィンドウの表示処理
   document.querySelectorAll('.delete').forEach(function (deleteButton) {
     deleteButton.addEventListener('click', function() {
