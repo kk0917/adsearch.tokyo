@@ -22,7 +22,7 @@ if (count($_POST) == 0) {
 }
 
 $managerRepository = new ManagerRepository();
-$managerRepository->setAllProperties('UPDATE');
+$managerRepository->setProperties('UPDATE');
 $managerRepository->execute('UPDATE');
 
 echo $twig->render('admin/staff/editComplete.html.twig', [

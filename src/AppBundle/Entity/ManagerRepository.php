@@ -14,52 +14,6 @@ use AppBundle\Common\DatabaseAccessObject;
 class ManagerRepository extends Manager
 {
     /**
-     * DB更新時に必要なすべてのプロパティに値をセット
-     *
-     * @param string  $type    INSERT or UPDATE
-     * @param Manager $manager Managerオブジェクト
-     */
-    public function setAllProperties($type)
-    {
-        switch ($type) {
-            case 'INSERT':
-                if (count($_POST)) {
-                    $this->setUsername(htmlentities($_POST['user_name'], ENT_QUOTES, 'UTF-8'));
-                    $this->setPassword(htmlentities($_POST['password'], ENT_QUOTES, 'UTF-8'));
-                    if (array_key_exists('password_confirm', $_POST)) {
-                        $this->setPasswordConfirm((htmlentities($_POST['password_confirm'], ENT_QUOTES, 'UTF-8')));
-                    }
-                    $this->setLastName(htmlentities($_POST['last_name'], ENT_QUOTES, 'UTF-8'));
-                    $this->setFirstName(htmlentities($_POST['first_name'], ENT_QUOTES, 'UTF-8'));
-                    $this->setRemarks(htmlentities($_POST['remarks'], ENT_QUOTES, 'UTF-8'));
-
-                    $date = new \DateTime();
-                    $this->setCreatedAt($date->format('Y-m-d H:i:s'));
-                }
-                break;
-
-            case 'UPDATE':
-                if (count($_POST)) {
-                    $this->setId(htmlentities($_POST['id'], ENT_QUOTES, 'UTF-8'));
-                    $this->setUsername(htmlentities($_POST['user_name'], ENT_QUOTES, 'UTF-8'));
-                    $this->setPassword(htmlentities($_POST['password'], ENT_QUOTES, 'UTF-8'));
-                    if (array_key_exists('password_confirm', $_POST)) {
-                        $this->setPasswordConfirm((htmlentities($_POST['password_confirm'], ENT_QUOTES, 'UTF-8')));
-                    }
-                    $this->setLastName(htmlentities($_POST['last_name'], ENT_QUOTES, 'UTF-8'));
-                    $this->setFirstName(htmlentities($_POST['first_name'], ENT_QUOTES, 'UTF-8'));
-                    $this->setRemarks(htmlentities($_POST['remarks'], ENT_QUOTES, 'UTF-8'));
-
-                    $date = new \DateTime();
-                    $this->setUpdatedAt($date->format('Y-m-d H:i:s'));
-                    // TODO: セッション実装後に以下設定
-//                        $this->setUpdatedManagerId('...');
-                    $this->setPasswordUpdatedAt($date->format('Y-m-d H:i:s'));
-                }
-                break;
-        }
-    }
-    /**
      * 管理者登録用バリデーション
      *
      * @param string $type  クエリタイプ：追加（INSERT） or 編集（UPDATE）

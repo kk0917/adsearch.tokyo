@@ -22,7 +22,7 @@ if (count($_POST) == 0) {
 }
 
 $manager = new ManagerRepository();
-$manager->setAllProperties('UPDATE');
+$manager->setProperties('UPDATE');
 $errors = $manager->validate('UPDATE');
 
 // パスワードを保護するためにハッシュ化
