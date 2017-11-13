@@ -74,11 +74,15 @@ class DatabaseAccessObject
 
         $this->dbh->commit();
 
-        if ($type == 'SELECT') {
-            return $stmt->fetchAll();
+        switch ($type) {
+            case 'SELECT':
+            case 'SELECT_ALL':
+                return $stmt->fetchAll();
+                break;
 
-        } elseif ($type == 'SELECT_BY_ONE') {
-            return $stmt->fetch();
+            case 'SELECT_BY_ONE':
+                return $stmt->fetch();
+                break;
         }
     }
 
