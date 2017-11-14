@@ -42,8 +42,11 @@
             イベント名<span class="required">必須</span>
           </th>
           <td>
-            <p class="info">半角英数字のみ可</p>
-            <input type="text" name="eventName" class="form-control" placeholder="user1234">
+            {% if event.eventName %}
+              <input type="text" name="eventName" class="form-control" placeholder="user1234" value="{{ event.eventName }}">
+            {% else %}
+              <input type="text" name="eventName" class="form-control" placeholder="user1234">
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -51,10 +54,23 @@
             カテゴリー<span class="required">必須</span>
           </th>
           <td>
-              <p class="info">選択したいカテゴリーをクリックして右枠に移動させてください</p>
-            <select id='pre-selected-options' name="categories[]" multiple='multiple'>
+            <p class="info">選択したいカテゴリーをクリックして右枠に移動させてください</p>
+            <select id='pre-selected-options' name="categoriesId[]" multiple='multiple'>
               {% for category in categories %}
-                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% if event.categoriesId|length > 0 %}
+                  {% set sameId = false %}
+                  {% for eventCategory in event.categoriesId %}
+                    {% if eventCategory == category.id and sameId == false %}
+                      <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                      {% set sameId = true %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if sameId == false %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                  {% endif %}
+                {% else %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endif %}
               {% endfor %}
             </select>
           </td>
@@ -65,7 +81,11 @@
           </th>
           <td>
             <p class="info">枠内をクリックして日付を選択してください</p>
-            <input type="text" name="dateFrom" class="form-inline datepicker">
+            {% if event.dateFrom %}
+              <input type="text" name="dateFrom" class="form-inline datepicker" value="{{ event.dateFrom }}">
+            {% else %}
+              <input type="text" name="dateFrom" class="form-inline datepicker">
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -74,7 +94,23 @@
           </th>
           <td>
             <p class="info">枠内をクリックして日付を選択してください</p>
-            <input type="text" name="dateTo" class="form-inline datepicker">
+            {% if event.dateTo %}
+              <input type="text" name="dateTo" class="form-inline datepicker" value="{{ event.dateTo }}">
+            {% else %}
+              <input type="text" name="dateTo" class="form-inline datepicker">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            入場料<span class="required">必須</span>
+          </th>
+          <td>
+            {% if event.entryFee %}
+              <input type="text" name="entryFee" class="form-control" value="{{ event.entryFee }}">
+            {% else %}
+              <input type="text" name="entryFee" class="form-control">
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -82,7 +118,11 @@
             営業時間<span class="required">必須</span>
           </th>
           <td>
-            <input type="text" name="businessTime" class="form-control">
+            {% if event.businessTime %}
+              <input type="text" name="businessTime" class="form-control" value="{{ event.businessTime }}">
+            {% else %}
+              <input type="text" name="businessTime" class="form-control">
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -90,7 +130,11 @@
             休館日<span class="required">必須</span>
           </th>
           <td>
-            <input type="text" name="closingDays" class="form-control">
+            {% if event.closingDays %}
+              <input type="text" name="closingDays" class="form-control" value="{{ event.closingDays }}">
+            {% else %}
+              <input type="text" name="closingDays" class="form-control">
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -101,7 +145,15 @@
             <select name="placeId">
               <option value="">選択してください</option>
               {% for place in places %}
-                <option value="{{ place.id }}">{{ place.name }}</option>
+                {% if event.placeId %}
+                  {% if event.placeId == place.id %}
+                    <option value="{{ place.id }}" selected>{{ place.name }}</option>
+                  {% else %}
+                    <option value="{{ place.id }}">{{ place.name }}</option>
+                  {% endif %}
+                {% else %}
+                  <option value="{{ place.id }}">{{ place.name }}</option>
+                {% endif %}
               {% endfor %}
             </select>
           </td>
@@ -111,7 +163,11 @@
             詳細URL<span class="optional">任意</span>
           </th>
           <td>
-            <input type="text" name="url" class="form-control">
+            {% if event.url %}
+              <input type="text" name="url" class="form-control" value="{{ event.url }}">
+            {% else %}
+              <input type="text" name="url" class="form-control">
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -119,7 +175,11 @@
             詳細情報<span class="optional">任意</span>
           </th>
           <td>
-            <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+            {% if event.comment %}
+              <textarea rows="" cols="" name="comment" class="form-control">{{ event.comment }}</textarea>
+            {% else %}
+              <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+            {% endif %}
           </td>
         </tr>
         <tr>
@@ -128,13 +188,25 @@
           </th>
           <td>
             <label for="new" class="checkbox-inline">
-              <input type="checkbox" name="new">新着
+              {% if event.new %}
+                <input type="checkbox" name="new" checked="checked">新着
+              {% else %}
+                <input type="checkbox" name="new">新着
+              {% endif %}
             </label>
             <label for="popular" class="checkbox-inline">
-              <input type="checkbox" name="popular">人気
+              {% if event.popular %}
+                <input type="checkbox" name="popular" checked="checked">人気
+              {% else %}
+                <input type="checkbox" name="popular">人気
+              {% endif %}
             </label>
             <label for="pickup" class="checkbox-inline">
+              {% if event.pickup %}
+                <input type="checkbox" name="pickup" checked="checked">注目
+              {% else %}
                 <input type="checkbox" name="pickup">注目
+              {% endif %}
             </label>
           </td>
         </tr>
@@ -144,7 +216,7 @@
           </th>
           <td>
             <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
-            <input type="file" name="mainImagePath">
+            <input type="file" name="mainImage">
           </td>
         </tr>
         <tr>
@@ -153,7 +225,7 @@
           </th>
           <td>
               <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
-              <input type="file" name="listImagePath">
+              <input type="file" name="listImage">
           </td>
         </tr>
       </tbody>

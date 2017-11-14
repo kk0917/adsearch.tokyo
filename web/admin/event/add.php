@@ -5,9 +5,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 use AppBundle\Entity\CategoryRepository;
 use AppBundle\Entity\PlaceRepository;
 
+// カテゴリー名一覧を取得
 $categoryRepository = new CategoryRepository();
 $categories         = $categoryRepository->execute('SELECT_ALL');
 
+// 会場一覧を取得
 $placeRepository = new PlaceRepository();
 $places          = $placeRepository->execute('SELECT_ALL');
 

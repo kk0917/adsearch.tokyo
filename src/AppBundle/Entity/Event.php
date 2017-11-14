@@ -6,6 +6,7 @@ class Event
 {
     private $id;
     private $eventName;
+    private $categoriesId;
     private $dateFrom;
     private $dateTo;
     private $businessTime;
@@ -17,7 +18,9 @@ class Event
     private $new;
     private $popular;
     private $pickup;
+    private $mainImageInfo;
     private $mainImagePath;
+    private $listImageInfo;
     private $listImagePath;
     private $isDeleted;
     private $createdAt;
@@ -34,11 +37,19 @@ class Event
         $this->id = $id;
     }
 
+    public function getCategoriesId()
+    {
+        return $this->categoriesId;
+    }
+    public function setCategoriesId($categoriesId) {
+        $this->categoriesId = $categoriesId;
+    }
+
     public function getEventName()
     {
         return $this->eventName;
     }
-    public function setEventTime($eventName)
+    public function setEventName($eventName)
     {
         $this->eventName = $eventName;
     }
@@ -142,13 +153,31 @@ class Event
         $this->pickup = $pickup;
     }
 
+    public function getMainImageInfo()
+    {
+        return $this->mainImageInfo;
+    }
+    public function setMainImageInfo($mainImageInfo)
+    {
+        $this->mainImageInfo = $mainImageInfo;
+    }
+
     public function getMainImagePath()
     {
         return $this->mainImagePath;
     }
-    public function setMainImagepath($mainImagePath)
+    public function setMainImagePath($mainImagePath)
     {
         $this->mainImagePath = $mainImagePath;
+    }
+
+    public function getListImageInfo()
+    {
+        return $this->listImageInfo;
+    }
+    public function setListImageInfo($listImageInfo)
+    {
+        $this->listImageInfo = $listImageInfo;
     }
 
     public function getListImagePath()
@@ -203,6 +232,79 @@ class Event
     public function setUpdatedManagerId($updatedManagerId)
     {
         $this->updatedManagerId = $updatedManagerId;
+    }
+
+    /**
+     * DB更新時に必要なプロパティに値をセット
+     * @param string $type データ操作種別
+     */
+    public function setProperties($type)
+    {
+        switch ($type) {
+            case 'INSERT':
+                $this->setEventName(htmlentities($_POST['eventName'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('categoriesId', $_POST)) {
+                    // カテゴリーIDを格納した配列をセット
+                    $this->setCategoriesId($_POST['categoriesId']);
+                }
+                $this->setDateFrom(htmlentities($_POST['dateFrom'], ENT_QUOTES, 'UTF-8'));
+                $this->setDateTo(htmlentities($_POST['dateTo'], ENT_QUOTES, 'UTF-8'));
+                $this->setBusinessTime(htmlentities($_POST['businessTime'], ENT_QUOTES, 'UTF-8'));
+                $this->setClosingDays(htmlentities($_POST['closingDays'], ENT_QUOTES, 'UTF-8'));
+                $this->setEntryFee(htmlentities($_POST['entryFee'], ENT_QUOTES, 'UTF-8'));
+                $this->setPlaceId(htmlentities($_POST['placeId'], ENT_QUOTES, 'UTF-8'));
+                $this->setUrl(htmlentities($_POST['url'], ENT_QUOTES, 'UTF-8'));
+                $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('new', $_POST)) {
+                    $this->setNew(htmlentities($_POST['new'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('popular', $_POST)) {
+                    $this->setPopular(htmlentities($_POST['popular'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('pickup', $_POST)) {
+                    $this->setPickup(htmlentities($_POST['pickup'], ENT_QUOTES, 'UTF-8'));
+                }
+                $this->setMainImageInfo($_FILES['mainImage']);
+                $this->setListImageInfo($_FILES['listImage']);
+
+                $date = new \DateTime();
+                $this->setCreatedAt($date->format('Y-m-d H:i:s'));
+                $this->setCreatedManagerId(0); // TODO: セッション管理後にcreatedManagerIdの改修
+                break;
+
+            case 'UPDATE':
+                //
+                break;
+        }
+    }
+
+    public function getProperties()
+    {
+        return $event = [
+            'id'               => $this->getId(),
+            'eventName'        => $this->getEventName(),
+            'categoriesId'     => $this->getCategoriesId(),
+            'dateFrom'         => $this->getDateFrom(),
+            'dateTo'           => $this->getDateTo(),
+            'businessTime'     => $this->getBusinessTime(),
+            'closingDays'      => $this->getClosingDays(),
+            'entryFee'         => $this->getEntryFee(),
+            'placeId'          => $this->getPlaceId(),
+            'url'              => $this->getUrl(),
+            'comment'          => $this->getComment(),
+            'new'              => $this->getNew(),
+            'popular'          => $this->getPopular(),
+            'pickup'           => $this->getPickup(),
+            'mainImageInfo'    => $this->getMainImageInfo(),
+            'mainImagePath'    => $this->getMainImagePath(),
+            'listImageInfo'    => $this->getListImageInfo(),
+            'listImagePath'    => $this->getListImagePath(),
+            'isDeleted'        => $this->getIsDeleted(),
+            'createdAt'        => $this->getCreatedAt(),
+            'createdManagerId' => $this->getCreatedManagerId(),
+            'updatedAt'        => $this->getUpdatedAt(),
+            'updatedManagerId' => $this->getUpdatedManagerId()
+        ];
     }
 }
 

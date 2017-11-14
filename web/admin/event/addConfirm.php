@@ -8,7 +8,9 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
-use AppBundle\Entity\ManagerRepository;
+use AppBundle\Entity\EventRepository;
+use AppBundle\Entity\CategoryRepository;
+use AppBundle\Entity\PlaceRepository;
 
 $loader = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT'] . '/app/resources/views/');
 $twig   = new Twig_Environment($loader);
@@ -21,21 +23,33 @@ if (count($_POST) == 0) {
     exit();
 }
 
-echo'<pre>';print_r($_POST);echo'</pre>';exit;
+$eventRepository = new EventRepository();
+$eventRepository->setProperties('INSERT');
+$errors = $eventRepository->validate();
+$eventRepository->checkUploadImage();
 
-move_uploaded_file($_FILES['main_image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['main_image']['name']);
+// 入力エラーだった場合に入力ページに戻るのでカテゴリー名と開催場所を取得し渡してあげる
+  // カテゴリー名一覧を取得
+$categoryRepository = new CategoryRepository();
+$categories         = $categoryRepository->execute('SELECT_ALL');
 
-// TODO: 画像の幅、高さチェック
-echo'<pre>';print_r($_FILES);print_r(getimagesize($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['main_image']['name']));echo'</pre>';exit;
+  // 会場一覧を取得
+$placeRepository = new PlaceRepository();
+$places          = $placeRepository->execute('SELECT_ALL');
 
+// 入力エラー有無に応じて遷移ページ切り替え
 if (count($errors)) {
-    echo $twig->render('admin/staff/add.html.twig', [
-        'manager' => $manager,
-        'errors'  => $errors,
+    echo $twig->render('admin/event/add.html.twig', [
+        'event'      => $eventRepository,
+        'errors'     => $errors,
+        'categories' => $categories,
+        'places'     => $places
     ]);
 } else {
-    echo $twig->render('admin/staff/addConfirm.html.twig', [
-        'manager' => $manager,
+    echo $twig->render('admin/event/addConfirm.html.twig', [
+        'event' => $eventRepository,
+        'categories' => $categories,
+        'places'     => $places
     ]);
 }
 
