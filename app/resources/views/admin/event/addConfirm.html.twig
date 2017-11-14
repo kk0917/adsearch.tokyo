@@ -1,0 +1,164 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}イベント追加 確認画面{{ parent() }}{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active">Home</li>
+    <li class="active">イベント一覧</li>
+    <li class="active">イベント追加</li>
+  </ol>
+
+  <nav aria-label="...">
+    <ul class="pager">
+      <li class="previous"><a onclick="history.back()"><span aria-hidden="true">&larr;</span>戻る</a></li>
+    </ul>
+  </nav>
+
+  <h4 class="page-header">イベント追加 確認画面</h4>
+  <form action="addComplete.php" method="post" class="form-horizontal">
+    <table>
+      <tbody>
+        <tr>
+          <th>イベント名</th>
+          <td>
+            {{ event.eventName }}
+            <input type="hidden" name="eventName" value="{{ event.eventName }}">
+          </td>
+        </tr>
+        <tr>
+          <th>カテゴリー</th>
+          <td>
+            {% for categoryId in event.categoriesId %}
+              {% for category in categories%}
+                {% if categoryId == category.id %}
+                  {{ category.name }}
+                  <input type="hidden" name="categoriesId[]" value="{{ categoryId }}">
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <th>開催日</th>
+          <td>
+            {{ event.dateFrom }}
+            <input type="hidden" name="dateFrom" value="{{ event.dateFrom }}">
+          </td>
+        </tr>
+        <tr>
+          <th>最終日</th>
+          <td>
+            {{ event.dateTo }}
+            <input type="hidden" name="dateTo" value="{{ event.dateTo }}">
+          </td>
+        </tr>
+        <tr>
+          <th>入場料</th>
+          <td>
+            {{ event.entryFee }}
+            <input type="hidden" name="entryFee" value="{{ event.entryFee }}">
+          </td>
+        </tr>
+        <tr>
+          <th>営業時間</th>
+          <td>
+            {{ event.businessTime }}
+            <input type="hidden" name="businessTime" value="{{ event.businessTime }}">
+          </td>
+        </tr>
+        <tr>
+          <th>休館日</th>
+          <td>
+            {{ event.closingDays }}
+            <input type="hidden" name="closingDays" value="{{ event.closingDays }}">
+          </td>
+        </tr>
+        <tr>
+          <th>開催場所</th>
+          <td>
+            {% for place in places %}
+              {% if place.id == event.placeId %}
+                {{ place.name }}
+                <input type="hidden" name="placeId" value="{{ event.placeId }}">
+              {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <th>詳細URL</th>
+          <td>
+            {% if event.url %}
+              {{ event.url }}
+              <input type="hidden" name="url" value="{{ event.url }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>詳細情報</th>
+          <td>
+            {% if event.comment %}
+              {{ event.comment }}
+              <input type="hidden" name="comment" value="{{ event.comment }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>ステータス</th>
+          <td>
+            {% set statusCount = 0 %}
+            {% if event.new %}
+              新着 
+              <input type="hidden" name="new" value="{{ event.new }}">
+              {% set statusCount = statusCount + 1 %}
+            {% endif %}
+            {% if event.popular %}
+              人気 
+              <input type="hidden" name="popular" value="{{ event.popular }}">
+              {% set statusCount = statusCount + 1 %}
+            {% endif %}
+            {% if event.pickup %}
+              注目
+              <input type="hidden" name="pickup" value="{{ event.pickup }}">
+              {% set statusCount = statusCount + 1 %}
+            {% endif %}
+            {% if statusCount == 0 %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>メイン画像</th>
+          <td>
+            {% if event.mainImagePath %}
+              <img src="{{ event.mainImagePath }}" alt="">
+              <input type="hidden" name="mainImagePath" value="{{ event.mainImagePath }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>リスト画像</th>
+          <td>
+            {% if event.listImagePath %}
+              <img src="{{ event.listImagePath }}" alt="">
+              <input type="hidden" name="listImagePath" value="{{ event.listImagePath }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="width:255px; margin:20px auto;">
+        <p>上記の内容で登録してよろしいですか？</p>
+    </div>
+    <input type="submit" class="btn btn-primary" value="登録する">
+  </form>
+  
+{% endblock %}

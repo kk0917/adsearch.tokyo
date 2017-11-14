@@ -1,0 +1,254 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}イベント追加 登録画面{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="/jquery-multi-select/multi-select.css">
+  <link rel="stylesheet" href="/jquery-ui-1.12.1/jquery-ui.min.css">
+  {{ parent() }}
+{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active">Home</li>
+    <li class="active">イベント一覧</li>
+    <li class="active">イベント追加</li>
+  </ol>
+
+  <nav aria-label="...">
+    <ul class="pager">
+      <li class="previous"><a onclick="history.back()"><span aria-hidden="true">&larr;</span>戻る</a></li>
+    </ul>
+  </nav>
+
+  <h4 class="page-header">イベント追加</h4>
+
+  {#エラー時のメッセージ#}
+  {% if errors %}
+    <div class="error-area">
+      <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <form action="addConfirm.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            イベント名<span class="required">必須</span>
+          </th>
+          <td>
+            {% if event.eventName %}
+              <input type="text" name="eventName" class="form-control" placeholder="user1234" value="{{ event.eventName }}">
+            {% else %}
+              <input type="text" name="eventName" class="form-control" placeholder="user1234">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            カテゴリー<span class="required">必須</span>
+          </th>
+          <td>
+            <p class="info">選択したいカテゴリーをクリックして右枠に移動させてください</p>
+            <select id='pre-selected-options' name="categoriesId[]" multiple='multiple'>
+              {% for category in categories %}
+                {% if event.categoriesId|length > 0 %}
+                  {% set sameId = false %}
+                  {% for eventCategory in event.categoriesId %}
+                    {% if eventCategory == category.id and sameId == false %}
+                      <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                      {% set sameId = true %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if sameId == false %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                  {% endif %}
+                {% else %}
+                  <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            開催日<span class="required">必須</span>
+          </th>
+          <td>
+            <p class="info">枠内をクリックして日付を選択してください</p>
+            {% if event.dateFrom %}
+              <input type="text" name="dateFrom" class="form-inline datepicker" value="{{ event.dateFrom }}">
+            {% else %}
+              <input type="text" name="dateFrom" class="form-inline datepicker">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            最終日<span class="required">必須</span>
+          </th>
+          <td>
+            <p class="info">枠内をクリックして日付を選択してください</p>
+            {% if event.dateTo %}
+              <input type="text" name="dateTo" class="form-inline datepicker" value="{{ event.dateTo }}">
+            {% else %}
+              <input type="text" name="dateTo" class="form-inline datepicker">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            入場料<span class="required">必須</span>
+          </th>
+          <td>
+            {% if event.entryFee %}
+              <input type="text" name="entryFee" class="form-control" value="{{ event.entryFee }}">
+            {% else %}
+              <input type="text" name="entryFee" class="form-control">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            営業時間<span class="required">必須</span>
+          </th>
+          <td>
+            {% if event.businessTime %}
+              <input type="text" name="businessTime" class="form-control" value="{{ event.businessTime }}">
+            {% else %}
+              <input type="text" name="businessTime" class="form-control">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            休館日<span class="required">必須</span>
+          </th>
+          <td>
+            {% if event.closingDays %}
+              <input type="text" name="closingDays" class="form-control" value="{{ event.closingDays }}">
+            {% else %}
+              <input type="text" name="closingDays" class="form-control">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            開催場所<span class="required">必須</span>
+          </th>
+          <td>
+            <select name="placeId">
+              <option value="">選択してください</option>
+              {% for place in places %}
+                {% if event.placeId %}
+                  {% if event.placeId == place.id %}
+                    <option value="{{ place.id }}" selected>{{ place.name }}</option>
+                  {% else %}
+                    <option value="{{ place.id }}">{{ place.name }}</option>
+                  {% endif %}
+                {% else %}
+                  <option value="{{ place.id }}">{{ place.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            詳細URL<span class="optional">任意</span>
+          </th>
+          <td>
+            {% if event.url %}
+              <input type="text" name="url" class="form-control" value="{{ event.url }}">
+            {% else %}
+              <input type="text" name="url" class="form-control">
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            詳細情報<span class="optional">任意</span>
+          </th>
+          <td>
+            {% if event.comment %}
+              <textarea rows="" cols="" name="comment" class="form-control">{{ event.comment }}</textarea>
+            {% else %}
+              <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>
+            ステータス<span class="optional">任意</span>
+          </th>
+          <td>
+            <label for="new" class="checkbox-inline">
+              {% if event.new %}
+                <input type="checkbox" name="new" checked="checked">新着
+              {% else %}
+                <input type="checkbox" name="new">新着
+              {% endif %}
+            </label>
+            <label for="popular" class="checkbox-inline">
+              {% if event.popular %}
+                <input type="checkbox" name="popular" checked="checked">人気
+              {% else %}
+                <input type="checkbox" name="popular">人気
+              {% endif %}
+            </label>
+            <label for="pickup" class="checkbox-inline">
+              {% if event.pickup %}
+                <input type="checkbox" name="pickup" checked="checked">注目
+              {% else %}
+                <input type="checkbox" name="pickup">注目
+              {% endif %}
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            メイン画像<span class="required">必須</span>
+          </th>
+          <td>
+            <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+            <input type="file" name="mainImageInfo">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            リスト画像<span class="optional">任意</span>
+          </th>
+          <td>
+              <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+              <input type="file" name="listImageInfo">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <input type="submit" class="btn btn-primary" value="入力内容を確認する">
+  </form>
+  
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
+  <script src="/jquery-multi-select/jquery.multi-select.js"></script>
+  <script>
+    $( function() {
+      // jQuery UI datepicker
+      $( ".datepicker" ).datepicker({
+        dateFormat: "yy-mm-dd",
+      });;
+
+      // jQuery multiselect
+      $('#pre-selected-options').multiSelect();
+    });
+  </script>
+{% endblock %}
