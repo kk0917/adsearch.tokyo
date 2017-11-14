@@ -19,7 +19,7 @@ $managerRepository = new ManagerRepository();
 $managerRepository->setId(htmlentities($_GET['id']));
 $result = $managerRepository->execute('SELECT_BY_ONE');
 
-echo $twig->render('admin/staff/edit.html.twig', [
+echo $twig->render('admin/manager/edit.html.twig', [
     'manager' => $result
 ]);
 

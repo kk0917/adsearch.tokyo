@@ -7,7 +7,7 @@
   // 追加ボタンクリック時の編集画面ページ遷移
   document.querySelectorAll('.add').forEach(function (editButton) {
     editButton.addEventListener('click', function() {
-      window.location.assign('/admin/staff/add.php');
+      window.location.assign('/admin/manager/add.php');
     }, false);
   });
 
@@ -18,7 +18,7 @@
   // 編集ボタンクリック時の編集画面ページ遷移
   document.querySelectorAll('.edit').forEach(function (editButton) {
     editButton.addEventListener('click', function() {
-      window.location.assign('/admin/staff/edit.php?id=' + editButton.getAttribute('value'));
+      window.location.assign('/admin/manager/edit.php?id=' + editButton.getAttribute('value'));
     }, false);
   });
 
@@ -93,7 +93,7 @@
       document.getElementById('execDelete').addEventListener('click', function() {
         var ajax = new XMLHttpRequest();
         
-        ajax.open('GET', '/admin/staff/delete.php?id=' + this.getAttribute('value'), true);
+        ajax.open('GET', '/admin/manager/delete.php?id=' + this.getAttribute('value'), true);
         ajax.onreadystatechange = execDelete;
         ajax.send(null);
         
