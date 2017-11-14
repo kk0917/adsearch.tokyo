@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Common\DatabaseAccessObject;
 
 class EventRepository extends Event
 {
@@ -125,6 +126,79 @@ class EventRepository extends Event
             move_uploaded_file($listImageInfo['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath . $listImageName);
             $this->setListImagePath($imagePath . $listImageName);
         }
+    }
 
+    public function execute($type)
+    {
+        $dbObject = new DatabaseAccessObject();
+
+        switch ($type) {
+            case 'INSERT':
+                $sql = 'INSERT INTO event (
+                         event_name,
+                         date_from,
+                         date_to,
+                         business_time,
+                         closing_days,
+                         entry_fee,
+                         place_id,
+                         url,
+                         comment,
+                         new,
+                         popular,
+                         pickup,
+                         main_image_path,
+                         list_image_path,
+                         created_at,
+                         created_manager_id
+                       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+
+                $new     = $this->getNew() ? 1 : 0;
+                $popular = $this->getPopular() ? 1 : 0;
+                $pickup  = $this->getPickup() ? 1 : 0;
+
+                $values = [
+                    $this->getEventName(),
+                    $this->getDateFrom(),
+                    $this->getDateTo(),
+                    $this->getBusinessTime(),
+                    $this->getClosingDays(),
+                    $this->getEntryFee(),
+                    $this->getPlaceId(),
+                    $this->getUrl(),
+                    $this->getComment(),
+                    $new,
+                    $popular,
+                    $pickup,
+                    $this->getMainImagePath(),
+                    $this->getListImagePath(),
+                    $this->getCreatedAt(),
+                    $this->getCreatedManagerId()
+                ];
+
+                $eventId      = $dbObject->run('INSERT', $sql, $values);
+                $categoriesId = $this->getCategoriesId();
+
+                if (count($categoriesId)) {
+                    foreach ($categoriesId as $categoryId) {
+                        $sql = 'INSERT INTO event_category (
+                                 event_id,
+                                 category_id,
+                                 created_at,
+                                 created_manager_id
+                               ) VALUES (?, ?, ?, ?)';
+
+                        $values = [
+                            $eventId,
+                            $categoryId,
+                            $this->getCreatedAt(),
+                            $this->getCreatedManagerId()
+                        ];
+
+                        $dbObject->run('INSERT', $sql, $values);
+                    }
+                }
+                break;
+        }
     }
 }

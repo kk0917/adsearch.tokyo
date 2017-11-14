@@ -20,40 +20,137 @@
     <table>
       <tbody>
         <tr>
-          <th>
-            ユーザー名</span>
-          </th>
+          <th>イベント名</th>
           <td>
-            {{ manager.username }}
-            <input type="hidden" name="user_name" value="{{ manager.username }}">
+            {{ event.eventName }}
+            <input type="hidden" name="eventName" value="{{ event.eventName }}">
           </td>
         </tr>
         <tr>
-          <th>
-            パスワード</span>
-          </th>
+          <th>カテゴリー</th>
           <td>
-            （非表示）
-            <input type="hidden" name="password" value="{{ manager.password }}">
+            {% for categoryId in event.categoriesId %}
+              {% for category in categories%}
+                {% if categoryId == category.id %}
+                  {{ category.name }}
+                  <input type="hidden" name="categoriesId[]" value="{{ categoryId }}">
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
           </td>
         </tr>
         <tr>
-          <th>
-            名前
-          </th>
+          <th>開催日</th>
           <td>
-            {{ manager.lastName }} {{ manager.firstName }}
-            <input type="hidden" name="last_name" value="{{ manager.lastName }}">
-            <input type="hidden" name="first_name" value="{{ manager.firstName }}">
+            {{ event.dateFrom }}
+            <input type="hidden" name="dateFrom" value="{{ event.dateFrom }}">
           </td>
         </tr>
         <tr>
-          <th>
-            備考
-          </th>
+          <th>最終日</th>
           <td>
-            {{ manager.remarks }}
-            <input type="hidden" name="remarks" value="{{ manager.remarks }}">
+            {{ event.dateTo }}
+            <input type="hidden" name="dateTo" value="{{ event.dateTo }}">
+          </td>
+        </tr>
+        <tr>
+          <th>入場料</th>
+          <td>
+            {{ event.entryFee }}
+            <input type="hidden" name="entryFee" value="{{ event.entryFee }}">
+          </td>
+        </tr>
+        <tr>
+          <th>営業時間</th>
+          <td>
+            {{ event.businessTime }}
+            <input type="hidden" name="businessTime" value="{{ event.businessTime }}">
+          </td>
+        </tr>
+        <tr>
+          <th>休館日</th>
+          <td>
+            {{ event.closingDays }}
+            <input type="hidden" name="closingDays" value="{{ event.closingDays }}">
+          </td>
+        </tr>
+        <tr>
+          <th>開催場所</th>
+          <td>
+            {% for place in places %}
+              {% if place.id == event.placeId %}
+                {{ place.name }}
+                <input type="hidden" name="placeId" value="{{ event.placeId }}">
+              {% endif %}
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <th>詳細URL</th>
+          <td>
+            {% if event.url %}
+              {{ event.url }}
+              <input type="hidden" name="url" value="{{ event.url }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>詳細情報</th>
+          <td>
+            {% if event.comment %}
+              {{ event.comment }}
+              <input type="hidden" name="comment" value="{{ event.comment }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>ステータス</th>
+          <td>
+            {% set statusCount = 0 %}
+            {% if event.new %}
+              新着 
+              <input type="hidden" name="new" value="{{ event.new }}">
+              {% set statusCount = statusCount + 1 %}
+            {% endif %}
+            {% if event.popular %}
+              人気 
+              <input type="hidden" name="popular" value="{{ event.popular }}">
+              {% set statusCount = statusCount + 1 %}
+            {% endif %}
+            {% if event.pickup %}
+              注目
+              <input type="hidden" name="pickup" value="{{ event.pickup }}">
+              {% set statusCount = statusCount + 1 %}
+            {% endif %}
+            {% if statusCount == 0 %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>メイン画像</th>
+          <td>
+            {% if event.mainImagePath %}
+              <img src="{{ event.mainImagePath }}" alt="">
+              <input type="hidden" name="mainImagePath" value="{{ event.mainImagePath }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>リスト画像</th>
+          <td>
+            {% if event.listImagePath %}
+              <img src="{{ event.listImagePath }}" alt="">
+              <input type="hidden" name="listImagePath" value="{{ event.listImagePath }}">
+            {% else %}
+              -
+            {% endif %}
           </td>
         </tr>
       </tbody>

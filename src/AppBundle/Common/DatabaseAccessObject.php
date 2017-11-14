@@ -72,6 +72,8 @@ class DatabaseAccessObject
             throw $e;
         }
 
+        $lastInsertId = $this->dbh->lastInsertId();
+
         $this->dbh->commit();
 
         switch ($type) {
@@ -82,6 +84,10 @@ class DatabaseAccessObject
 
             case 'SELECT_BY_ONE':
                 return $stmt->fetch();
+                break;
+
+            case 'INSERT':
+                return $lastInsertId;
                 break;
         }
     }

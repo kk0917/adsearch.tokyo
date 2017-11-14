@@ -253,8 +253,12 @@ class Event
                 $this->setClosingDays(htmlentities($_POST['closingDays'], ENT_QUOTES, 'UTF-8'));
                 $this->setEntryFee(htmlentities($_POST['entryFee'], ENT_QUOTES, 'UTF-8'));
                 $this->setPlaceId(htmlentities($_POST['placeId'], ENT_QUOTES, 'UTF-8'));
-                $this->setUrl(htmlentities($_POST['url'], ENT_QUOTES, 'UTF-8'));
-                $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('url', $_POST)) {
+                    $this->setUrl(htmlentities($_POST['url'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('comment', $_POST)) {
+                    $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
+                }
                 if (array_key_exists('new', $_POST)) {
                     $this->setNew(htmlentities($_POST['new'], ENT_QUOTES, 'UTF-8'));
                 }
@@ -264,12 +268,21 @@ class Event
                 if (array_key_exists('pickup', $_POST)) {
                     $this->setPickup(htmlentities($_POST['pickup'], ENT_QUOTES, 'UTF-8'));
                 }
-                $this->setMainImageInfo($_FILES['mainImage']);
-                $this->setListImageInfo($_FILES['listImage']);
+                if (count($_FILES)) {
+                    $this->setMainImageInfo($_FILES['mainImageInfo']);
+
+                } elseif (array_key_exists('mainImagePath', $_POST)) { // 確認画面 -> 登録完了画面
+                    $this->setMainImagePath($_POST['mainImagePath']);
+                }
+                if (count($_FILES)) {
+                    $this->setListImageInfo($_FILES['listImageInfo']);
+                } elseif (array_key_exists('listImagePath', $_POST)) {
+                    $this->setListImagePath($_POST['listImagePath']);
+                }
 
                 $date = new \DateTime();
                 $this->setCreatedAt($date->format('Y-m-d H:i:s'));
-                $this->setCreatedManagerId(0); // TODO: セッション管理後にcreatedManagerIdの改修
+                $this->setCreatedManagerId(1); // TODO: セッション管理後にcreatedManagerIdの改修
                 break;
 
             case 'UPDATE':

@@ -1,0 +1,17 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}イベント追加 完了画面{{ parent() }}{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active">Home</li>
+    <li class="active">イベント一覧</li>
+    <li class="active">イベント追加</li>
+  </ol>
+
+  <h4 class="page-header">イベント追加 完了画面</h4>
+  <p>{{ eventName }} を追加しました。</p>
+  <button class="btn btn-default button-center"><a href="/admin/event/index.php">一覧画面に戻る</a></button>
+
+  
+{% endblock %}
