@@ -54,7 +54,7 @@
             </td>
             <td>
               {% if event.url %}
-                <a href="{{ event.url }}">{{ event.url|slice(0, 30) }}...</a>
+                <a href="{{ event.url }}" target="_blank" class="url">{{ event.url|slice(0, 30) }}...</a>
               {% else %}
                 -
               {% endif %}
@@ -94,7 +94,7 @@
               </td>
               <td>
                 {% if event.url %}
-                  <a href="{{ event.url }}">{{ event.url|slice(0, 30) }}...</a>
+                  <a href="{{ event.url }}" target="_blank" class="url">{{ event.url|slice(0, 30) }}...</a>
                 {% else %}
                   -
                 {% endif %}
