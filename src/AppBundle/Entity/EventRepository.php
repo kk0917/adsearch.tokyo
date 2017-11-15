@@ -132,7 +132,22 @@ class EventRepository extends Event
     {
         $dbObject = new DatabaseAccessObject();
 
+        $sql = '';
+        $values = [];
+
         switch ($type) {
+            case 'SELECT_UPCOMING':
+                $sql = 'SELECT * FROM event WHERE is_deleted = FALSE AND date_to >= NOW() ORDER BY date_from ASC';
+
+                return $dbObject->run('SELECT', $sql);
+                break;
+
+            case 'SELECT_PAST':
+                $sql = 'SELECT * FROM event WHERE is_deleted = FALSE AND date_to < NOW() ORDER BY date_to DESC';
+
+                return $dbObject->run('SELECT', $sql);
+                break;
+
             case 'INSERT':
                 $sql = 'INSERT INTO event (
                          event_name,

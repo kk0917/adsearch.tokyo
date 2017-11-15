@@ -213,3 +213,29 @@ input[type="submit"] {
   text-align: center;
   margin-top: 30px;
 }
+
+/* イベントのステータス表紙 */
+.icon-new {
+  color: white;
+  background-color: rgb(250, 72, 56);
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.icon-popular {
+  color: white;
+  background-color: rgb(2, 138, 9);
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.icon-pickup {
+  color: white;
+  background-color: rgb(4, 52, 156);
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+
+/* イベントのテーブルをタブ切り替え */
+#upcomingEvents.table,
+#pastEvents.table {
+  display: none;
+}
