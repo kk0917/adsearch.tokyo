@@ -148,6 +148,15 @@ class EventRepository extends Event
                 return $dbObject->run('SELECT', $sql);
                 break;
 
+            case 'SELECT_ONE_BY':
+                $sql = 'SELECT * FROM event WHERE id = ?';
+                $value = [
+                    $this->getId()
+                ];
+
+                return $dbObject->run('SELECT_BY_ONE', $sql, $value);
+                break;
+
             case 'INSERT':
                 $sql = 'INSERT INTO event (
                          event_name,

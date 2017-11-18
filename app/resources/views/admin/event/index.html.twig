@@ -35,7 +35,7 @@
       </thead>
       <tbody>
         {% for event in upcomingEvents %}
-          <tr data-href="detail.php?id={{ event.id }}" style="cursor:pointer;">
+          <tr data-href="{{ event.id }}" style="cursor:pointer;">
             <td>{{ event.id }}</td>
             <td>
               {% if event.new %}
@@ -75,7 +75,7 @@
         </thead>
         <tbody>
           {% for event in pastEvents %}
-            <tr data-href="detail.php?id={{ event.id }}" style="cursor:pointer;">
+            <tr data-href="{{ event.id }}" style="cursor:pointer;">
               <td>{{ event.id }}</td>
               <td>
                 {% if event.new %}
