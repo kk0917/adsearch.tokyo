@@ -2,6 +2,12 @@
 
 {% block title %}イベント詳細画面{{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="/jquery-multi-select/multi-select.css">
+  <link rel="stylesheet" href="/jquery-ui-1.12.1/jquery-ui.min.css">
+  {{ parent() }}
+{% endblock %}
+
 {% block body %}
   <ol class="breadcrumb">
     <li class="active">Home</li>
@@ -17,61 +23,67 @@
 
   <h4 class="page-header">イベント詳細画面</h4>
   <form action="edit.php" method="post" class="form-horizontal" onsubmit="return false">
+    <input type="submit" class="editEvent btn btn-primary btn-centering" value="編集する">
+
     <table>
       <tbody>
         <tr>
           <th>イベント名</th>
           <td>
             {{ event.event_name }}
-            <input type="hidden" name="eventName" value="{{ event.event_name }}">
+            <input type="hidden" name="eventName" class="form-control" value="{{ event.event_name }}">
           </td>
         </tr>
         <tr>
           <th>カテゴリー</th>
           <td>
-            {% for eventCategory in eventCategories %}
-              {% for category in categories%}
-                {% if eventCategory.category_id == category.id %}
-                  {{ category.name }}
-                  <input type="hidden" name="categoriesId[]" value="{{ category.name }}">
-                {% endif %}
+            {% if eventCategories|length != 0 %}
+              {% for eventCategory in eventCategories %}
+                {% for category in categories%}
+                  {% if eventCategory.category_id == category.id %}
+                    {{ category.name }}
+                    <input type="hidden" name="categoriesId[]" value="{{ category.name }}">
+                  {% endif %}
+                {% endfor %}
               {% endfor %}
-            {% endfor %}
+            {% else %}
+              -
+            {% endif %}
           </td>
         </tr>
         <tr>
           <th>開催日</th>
           <td>
             {{ event.date_from|date('Y-m-d') }}
-            <input type="hidden" name="dateFrom" value="{{ event.date_from }}">
+            <input type="hidden" name="dateFrom" class="form-inline datepicker" value="{{ event.date_from|date('Y-m-d') }}">
           </td>
         </tr>
         <tr>
           <th>最終日</th>
           <td>
             {{ event.date_to|date('Y-m-d') }}
-            <input type="hidden" name="dateTo" value="{{ event.date_to }}">
+            <input type="hidden" name="dateTo" class="form-inline datepicker" value="{{ event.date_to|date('Y-m-d') }}">
           </td>
         </tr>
         <tr>
           <th>入場料</th>
           <td>
             {{ event.entry_fee }}
-            <input type="hidden" name="entryFee" value="{{ event.entry_fee }}">
+            <input type="hidden" name="entryFee" class="form-control" value="{{ event.entry_fee }}">
           </td>
         </tr>
         <tr>
           <th>営業時間</th>
           <td>
             {{ event.business_time }}
-            <input type="hidden" name="businessTime" value="{{ event.business_time }}">
+            <input type="hidden" name="businessTime" class="form-control" value="{{ event.business_time }}">
           </td>
         </tr>
         <tr>
           <th>休館日</th>
           <td>
             {{ event.closing_days }}
-            <input type="hidden" name="closingDays" value="{{ event.closing_days }}">
+            <input type="hidden" name="closingDays" class="form-control" value="{{ event.closing_days }}">
           </td>
         </tr>
         <tr>
@@ -90,7 +102,7 @@
           <td>
             {% if event.url %}
               {{ event.url }}
-              <input type="hidden" name="url" value="{{ event.url }}">
+              <input type="hidden" name="url" class="form-control" value="{{ event.url }}">
             {% else %}
               -
             {% endif %}
@@ -101,7 +113,7 @@
           <td>
             {% if event.comment %}
               {{ event.comment }}
-              <input type="hidden" name="comment" value="{{ event.comment }}">
+              <input type="hidden" name="comment" class="form-control" value="{{ event.comment }}">
             {% else %}
               -
             {% endif %}
@@ -156,7 +168,26 @@
       </tbody>
     </table>
     
-    <input type="submit" id="editEvent" class="btn btn-primary" value="編集する">
+    <input type="submit" class="editEvent btn btn-primary btn-centering" value="編集する">
   </form>
   
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
+  <script src="/jquery-multi-select/jquery.multi-select.js"></script>
+  <script src="/js/event.js"></script>
+  <script>
+    $( function() {
+      // jQuery UI datepicker
+      $( ".datepicker" ).datepicker({
+        dateFormat: "yy-mm-dd",
+      });;
+
+      // jQuery multiselect
+      $('#pre-selected-options').multiSelect();
+    });
+  </script>
 {% endblock %}
