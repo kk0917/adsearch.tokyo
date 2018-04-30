@@ -42,13 +42,18 @@
                 {% for category in categories%}
                   {% if eventCategory.category_id == category.id %}
                     {{ category.name }}
-                    <input type="hidden" name="categoriesId[]" value="{{ category.name }}">
+                    <input type="hidden" id="{{ category.id }}" name="categoriesId[]" value="{{ category.name }}">
                   {% endif %}
                 {% endfor %}
               {% endfor %}
             {% else %}
               -
             {% endif %}
+
+            {# 編集用にhiddenで値一覧を保持しておく #}
+            {% for category in categories %}
+              <input type="hidden" name="editCategories" id="{{ category.id }}" value="{{ category.name }}">
+            {% endfor %}
           </td>
         </tr>
         <tr>
@@ -92,8 +97,12 @@
             {% for place in places %}
               {% if place.id == event.place_id %}
                 {{ place.name }}
-                <input type="hidden" name="placeId" value="{{ place.name }}">
+                <input type="hidden" name="placeId" value="{{ place.id }}">
               {% endif %}
+            {% endfor %}
+            {# 編集用に値一覧を保持しておく #}
+            {% for place in places %}
+              <input type="hidden" name="editPlaceList" id="{{ place.id }}" value="{{ place.name }}">
             {% endfor %}
           </td>
         </tr>
@@ -125,17 +134,17 @@
             {% set statusCount = 0 %}
             {% if event.new %}
               新着 
-              <input type="hidden" name="new" value="{{ event.new }}">
+              <input type="hidden" id="new" name="status" value="{{ event.new }}">
               {% set statusCount = statusCount + 1 %}
             {% endif %}
             {% if event.popular %}
               人気 
-              <input type="hidden" name="popular" value="{{ event.popular }}">
+              <input type="hidden" id="popular" name="status" value="{{ event.popular }}">
               {% set statusCount = statusCount + 1 %}
             {% endif %}
             {% if event.pickup %}
               注目
-              <input type="hidden" name="pickup" value="{{ event.pickup }}">
+              <input type="hidden" id="pickup" name="status" value="{{ event.pickup }}">
               {% set statusCount = statusCount + 1 %}
             {% endif %}
             {% if statusCount == 0 %}

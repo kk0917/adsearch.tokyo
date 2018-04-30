@@ -189,23 +189,23 @@
           <td>
             <label for="new" class="checkbox-inline">
               {% if event.new %}
-                <input type="checkbox" name="new" checked="checked">新着
+                <input type="checkbox" name="status-new" checked="checked">新着
               {% else %}
-                <input type="checkbox" name="new">新着
+                <input type="checkbox" name="status-new">新着
               {% endif %}
             </label>
             <label for="popular" class="checkbox-inline">
               {% if event.popular %}
-                <input type="checkbox" name="popular" checked="checked">人気
+                <input type="checkbox" name="status-popular" checked="checked">人気
               {% else %}
-                <input type="checkbox" name="popular">人気
+                <input type="checkbox" name="status-popular">人気
               {% endif %}
             </label>
             <label for="pickup" class="checkbox-inline">
               {% if event.pickup %}
-                <input type="checkbox" name="pickup" checked="checked">注目
+                <input type="checkbox" name="status-pickup" checked="checked">注目
               {% else %}
-                <input type="checkbox" name="pickup">注目
+                <input type="checkbox" name="status-pickup">注目
               {% endif %}
             </label>
           </td>
