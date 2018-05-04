@@ -193,7 +193,7 @@ class Manager
     public function getProperties()
     {
         return $manager = [
-            'id' => $this->getId(),
+            'id'                         => $this->getId(),
             'username'                   => $this->getUsername(),
             'password'                   => $this->getPassword(),
             'passwordConfirm'            => $this->getPasswordConfirm(),

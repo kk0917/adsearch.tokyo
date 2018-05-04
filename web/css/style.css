@@ -2,6 +2,12 @@ h4 {
   margin-top: 30px;
   margin-left: 10px;
 }
+
+button {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
 button a {
   text-decoration: none;
 }
@@ -84,9 +90,10 @@ input[type="text"].short {
   width: 25%;
 }
 
-input[type="submit"] {
+.btn-centering {
     display: block;
     margin: 0 auto;
+    text-align: center;
 }
 
 .error-area {
@@ -212,4 +219,30 @@ input[type="submit"] {
   font-size: 1em;
   text-align: center;
   margin-top: 30px;
+}
+
+/* イベントのステータス表紙 */
+.icon-new {
+  color: white;
+  background-color: rgb(250, 72, 56);
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.icon-popular {
+  color: white;
+  background-color: rgb(2, 138, 9);
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.icon-pickup {
+  color: white;
+  background-color: rgb(4, 52, 156);
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+
+/* イベントのテーブルをタブ切り替え */
+#upcomingEvents.table,
+#pastEvents.table {
+  display: none;
 }

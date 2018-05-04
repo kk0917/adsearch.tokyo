@@ -164,6 +164,7 @@ class ManagerRepository extends Manager
                 ];
 
                 $dbObject->run('DELETE', $sql, $value);
+                break;
         }
     }
 }
