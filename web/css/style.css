@@ -175,7 +175,21 @@ input[type="text"].short {
   background: #000;
   display: none;
 }
-/* モーダルウィンドウ全体のスタイル */
+/* モーダルウィンドウ：入力画面の全体のスタイル */
+#modalInputWindow {
+  margin-top: -200px;
+  margin-left: -170px;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  height: 200px;
+  border-radius: 7px / 7px;
+  position: fixed;
+  z-index: 98;
+  background: #fff;
+  display: none;
+}
+/* モーダルウィンドウ：確認画面の全体のスタイル */
 #modalWindow {
   margin-top: -200px;
   margin-left: -170px;
@@ -183,6 +197,7 @@ input[type="text"].short {
   left: 50%;
   width: 350px;
   height: 200px;
+  border-radius: 7px / 7px;
   position: fixed;
   z-index: 98;
   background: #fff;
