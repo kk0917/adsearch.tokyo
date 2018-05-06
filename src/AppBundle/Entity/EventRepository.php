@@ -223,6 +223,16 @@ class EventRepository extends Event
                     }
                 }
                 break;
+
+            case 'DELETE':
+                $sql = 'UPDATE event SET is_deleted = TRUE WHERE id = ?';
+
+                $value = [
+                    $this->getId()
+                ];
+
+                $dbObject->run('DELETE', $sql, $value);
+                break;
         }
     }
 }

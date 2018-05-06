@@ -1,4 +1,4 @@
-// for event function
+// for event_index function
 (function () {
 
   /**
