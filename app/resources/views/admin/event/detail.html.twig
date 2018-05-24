@@ -24,10 +24,10 @@
   <h4 class="page-header">イベント詳細画面</h4>
   <form action="edit.php" method="post" class="form-horizontal" onsubmit="return false">
     <div class="btn-centering">
-      <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#eventEditModal" style="font-size: 14px">
+      <button type="button" class="btn btn-default btn-lg edit-event" data-toggle="modal" data-target="#eventEditModal" style="font-size: 14px">
         編集する
       </button>
-      <button type="button" class="btn btn-primary btn-lg delete-event" data-toggle="modal" data-target="#eventDeleteModal" style="font-size: 14px">
+      <button type="button" class="btn btn-primary btn-lg delete-event" data-toggle="modal" data-target="#eventDeleteConfirmModal" style="font-size: 14px">
         削除する
       </button>
     </div>
@@ -38,7 +38,7 @@
         <tr>
           <th>イベント名</th>
           <td>
-            {{ event.eventName }}
+            {{ event.event_name }}
             <input type="hidden" id="eventName" name="eventName" class="form-control" value="{{ event.event_name }}">
           </td>
         </tr>
@@ -186,10 +186,10 @@
     </table>
 
     <div class="btn-centering">
-      <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#eventEditModal" style="font-size: 14px">
+      <button type="button" class="btn btn-default btn-lg edit-event" data-toggle="modal" data-target="#eventEditModal" style="font-size: 14px">
         編集する
       </button>
-      <button type="button" class="btn btn-primary btn-lg delete-event" data-toggle="modal" data-target="#eventDeleteModal" style="font-size: 14px">
+      <button type="button" class="btn btn-primary btn-lg delete-event" data-toggle="modal" data-target="#eventDeleteConfirmModal" style="font-size: 14px">
         削除する
       </button>
     </div>
@@ -206,6 +206,7 @@
   <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
   <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
   <script src="/jquery-multi-select/jquery.multi-select.js"></script>
+  <script src="/js/admin/event/edit.js"></script>
   <script src="/js/admin/event/delete.js"></script>
   <script>
     $( function() {

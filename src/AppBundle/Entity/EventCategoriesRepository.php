@@ -21,7 +21,7 @@ class EventCategoriesRepository extends EventCategories
 
         switch ($type) {
             case 'SELECT_BY':
-                $sql = 'SELECT * FROM event_categories WHERE event_id = ? ORDER BY id ASC';
+                $sql = 'SELECT * FROM event_categories WHERE event_id = ? AND is_deleted = false ORDER BY id ASC';
                 $values[] = $this->getEventId();
 
                 return $dbObject->run('SELECT', $sql, $values);

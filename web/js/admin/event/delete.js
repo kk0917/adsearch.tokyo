@@ -3,9 +3,10 @@
     /**
      * 削除機能
      *****************************************************************************************************/
-        // 削除前確認画面モーダルウィンドウの表示テキスト追加・削除対象ID設定処理（モーダルウィンドウ自体はBootstrap3利用）
+    // 削除前確認画面モーダルウィンドウ表示時の設定（モーダルウィンドウ自体はBootstrap3利用）
     document.querySelectorAll('.delete-event').forEach(function (deleteButton) {
         deleteButton.addEventListener('click', function() {
+            // 確認画面にテキスト追加・削除対象ID設定処理
             var targetId      = deleteButton.parentNode.parentNode.querySelector('#id').value;
             var eventNameAttr = deleteButton.parentNode.parentNode.querySelector('#eventName');
             document.querySelector('#eventDeleteModal .modal-body').textContent = eventNameAttr.value + ' を削除しますか？';

@@ -73,30 +73,29 @@ class EventRepository extends Event
 
         // 画像のバリデーション
           // メイン画像：必須チェック
-        $mainImageInfo = $this->getMainImageInfo();
-        if ($mainImageInfo['name'] == null) {
+        $mainImageInfo = json_decode($this->getMainImageInfo(), true);
+        if (is_array($mainImageInfo)) {
+            if ($mainImageInfo['name'] == null) {
+                $errors[] = 'メイン画像を選択してください';
+            } else {
+                // メイン画像：容量チェック
+                if ($mainImageInfo['size'] >= 20000000) {
+                    $errors[] = 'メイン画像の容量は2M未満にしてください';
+                }
+                // TODO: メイン画像：幅・高さチェック
+                // getimagesize($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['mainImagePath']['name']);
+            }
+        } else {
             $errors[] = 'メイン画像を選択してください';
         }
 
-        if ($mainImageInfo['name']) {
-            // メイン画像：容量チェック
-            if ($mainImageInfo['size'] >= 20000000) {
-                $errors[] = 'メイン画像の容量は2M未満にしてください';
-            }
-
-            // TODO: メイン画像：幅・高さチェック
-//            getimagesize($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['mainImagePath']['name']);
-
-        }
-
         $listImageInfo = $this->getListImageInfo();
-        if ($listImageInfo['name']) {
-            // リスト画像：容量チェック
+        if (is_array($listImageInfo)) {
             if ($listImageInfo['size'] >= 20000000) {
                 $errors[] = 'リスト画像の容量は2M未満にしてください';
             }
-
             // TODO: リスト画像：幅・高さチェック
+            // getimagesize($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['listImagePath']['name']);
         }
 
         return $errors;
@@ -112,7 +111,7 @@ class EventRepository extends Event
         $date      = new \DateTime();
 
         // メイン画像の処理
-        $mainImageInfo = $this->getMainImageInfo();
+        $mainImageInfo = json_decode($this->getMainImageInfo(), true);
         if ($mainImageInfo['name']) {
             $mainImageName = $date->format('YmdHis') . $mainImageInfo['name'];
             move_uploaded_file($mainImageInfo['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath . $mainImageName);
@@ -120,7 +119,7 @@ class EventRepository extends Event
         }
 
         // リスト画像の処理
-        $listImageInfo = $this->getListImageInfo();
+        $listImageInfo = json_decode($this->getListImageInfo(), true);
         if ($listImageInfo['name']) {
             $listImageName = $date->format('YmdHis') . $listImageInfo['name'];
             move_uploaded_file($listImageInfo['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath . $listImageName);
@@ -149,7 +148,7 @@ class EventRepository extends Event
                 break;
 
             case 'SELECT_ONE_BY':
-                $sql = 'SELECT * FROM event WHERE id = ?';
+                $sql = 'SELECT * FROM event WHERE id = ? AND is_deleted = false';
                 $value = [
                     $this->getId()
                 ];
@@ -205,7 +204,7 @@ class EventRepository extends Event
 
                 if (count($categoriesId)) {
                     foreach ($categoriesId as $categoryId) {
-                        $sql = 'INSERT INTO event_category (
+                        $sql = 'INSERT INTO event_categories (
                                  event_id,
                                  category_id,
                                  created_at,
@@ -217,6 +216,81 @@ class EventRepository extends Event
                             $categoryId,
                             $this->getCreatedAt(),
                             $this->getCreatedManagerId()
+                        ];
+
+                        $dbObject->run('INSERT', $sql, $values);
+                    }
+                }
+                break;
+
+            case 'UPDATE':
+                $sql = 'UPDATE
+                            event
+                        SET
+                            event_name = ?,
+                            date_from = ?,
+                            date_to = ?,
+                            business_time = ?,
+                            closing_days = ?,
+                            entry_fee = ?,
+                            place_id = ?,
+                            url = ?,
+                            comment = ?,
+                            new = ?,
+                            popular = ?,
+                            pickup = ?,
+                            main_image_path = ?,
+                            list_image_path = ?,
+                            updated_at = ?,
+                            updated_manager_id = ?
+                        WHERE
+                            id = ?';
+
+                $new     = $this->getNew() ? 1 : 0;
+                $popular = $this->getPopular() ? 1 : 0;
+                $pickup  = $this->getPickup() ? 1 : 0;
+
+                $values = [
+                    $this->getEventName(),
+                    $this->getDateFrom(),
+                    $this->getDateTo(),
+                    $this->getBusinessTime(),
+                    $this->getClosingDays(),
+                    $this->getEntryFee(),
+                    $this->getPlaceId(),
+                    $this->getUrl(),
+                    $this->getComment(),
+                    $new,
+                    $popular,
+                    $pickup,
+                    $this->getMainImagePath(),
+                    $this->getListImagePath(),
+                    $this->getUpdatedAt(),
+                    $this->getUpdatedManagerId(),
+                    $this->getId()
+                ];
+
+                $dbObject->run('UPDATE', $sql, $values);
+                $categoriesId = $this->getCategoriesId();
+
+                $sql = 'UPDATE event_categories SET is_deleted = TRUE, updated_at = now(), updated_manager_id = 1 WHERE event_id = ?';
+                $value = [$this->getId()];
+                $dbObject->run('DELETE', $sql, $value);
+
+                if (count($categoriesId)) {
+                    foreach ($categoriesId as $categoryId) {
+                        $sql = 'INSERT INTO event_categories (
+                                 event_id,
+                                 category_id,
+                                 created_at,
+                                 created_manager_id
+                               ) VALUES (?, ?, ?, ?)';
+
+                        $values = [
+                            $this->getId(),
+                            $categoryId,
+                            $this->getUpdatedAt(),
+                            $this->getUpdatedManagerId()
                         ];
 
                         $dbObject->run('INSERT', $sql, $values);
