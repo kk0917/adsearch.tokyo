@@ -1,0 +1,263 @@
+<!-- イベント編集モーダル画面（Bootstrap3仕様参照） -->
+<div id="eventEditArea">
+    {#入力画面#}
+    <div class="modal fade" id="eventEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 100px; margin-left: -400px; top: 50%; left: 50%; width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close edit-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">イベント編集</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editEventForm" action="edit.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <table>
+                            <input type="hidden" name="id" value="{{ event.id }}">
+                            <tbody>
+                            <tr>
+                                <th>
+                                    イベント名<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if event.event_name %}
+                                        <input type="text" name="eventName" class="form-control" placeholder="user1234" value="{{ event.event_name }}">
+                                    {% else %}
+                                        <input type="text" name="eventName" class="form-control" placeholder="user1234" data-minlength="4" required>
+                                    {% endif %}
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required">必須項目です</li>
+                                        <li data-error="minlength">4文字以上で入力してください</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    カテゴリー<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <p class="info">選択したいカテゴリーをクリックして右枠に移動させてください</p>
+                                    <select id='pre-selected-options' name="categoriesId[]" multiple='multiple' required>
+                                        {% for category in categories %}
+                                            {% if eventCategories|length > 0 %}
+                                                {% set sameId = false %}
+                                                {% for eventCategory in eventCategories %}
+                                                    {% if eventCategory.category_id == category.id and sameId == false %}
+                                                        <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                                                        {% set sameId = true %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% if sameId == false %}
+                                                    <option value="{{ category.id }}">{{ category.name }}</option>
+                                                {% endif %}
+                                            {% else %}
+                                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    開催日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <p class="info">枠内をクリックして日付を選択してください</p>
+                                    {% if event.date_from %}
+                                        <input type="text" name="dateFrom" class="form-inline datepicker" value="{{ event.date_from|date("Y-m-d") }}">
+                                    {% else %}
+                                        <input type="text" name="dateFrom" class="form-inline datepicker">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    最終日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <p class="info">枠内をクリックして日付を選択してください</p>
+                                    {% if event.date_to %}
+                                        <input type="text" name="dateTo" class="form-inline datepicker" value="{{ event.date_to|date("Y-m-d") }}">
+                                    {% else %}
+                                        <input type="text" name="dateTo" class="form-inline datepicker">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    入場料<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if event.entry_fee %}
+                                        <input type="text" name="entryFee" class="form-control" value="{{ event.entry_fee }}">
+                                    {% else %}
+                                        <input type="text" name="entryFee" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    営業時間<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if event.business_time %}
+                                        <input type="text" name="businessTime" class="form-control" value="{{ event.business_time }}">
+                                    {% else %}
+                                        <input type="text" name="businessTime" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    休館日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if event.closing_days %}
+                                        <input type="text" name="closingDays" class="form-control" value="{{ event.closing_days }}">
+                                    {% else %}
+                                        <input type="text" name="closingDays" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    開催場所<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <select name="placeId">
+                                        <option value="">選択してください</option>
+                                        {% for place in places %}
+                                            {% if event.place_id %}
+                                                {% if event.place_id == place.id %}
+                                                    <option value="{{ place.id }}" selected>{{ place.name }}</option>
+                                                {% else %}
+                                                    <option value="{{ place.id }}">{{ place.name }}</option>
+                                                {% endif %}
+                                            {% else %}
+                                                <option value="{{ place.id }}">{{ place.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    詳細URL<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    {% if event.url %}
+                                        <input type="text" name="url" class="form-control" value="{{ event.url }}">
+                                    {% else %}
+                                        <input type="text" name="url" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    詳細情報<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    {% if event.comment %}
+                                        <textarea rows="" cols="" name="comment" class="form-control">{{ event.comment }}</textarea>
+                                    {% else %}
+                                        <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    ステータス<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    <label for="new" class="checkbox-inline">
+                                        {% if event.new %}
+                                            <input type="checkbox" name="status-new" checked="checked">新着
+                                        {% else %}
+                                            <input type="checkbox" name="status-new">新着
+                                        {% endif %}
+                                    </label>
+                                    <label for="popular" class="checkbox-inline">
+                                        {% if event.popular %}
+                                            <input type="checkbox" name="status-popular" checked="checked">人気
+                                        {% else %}
+                                            <input type="checkbox" name="status-popular">人気
+                                        {% endif %}
+                                    </label>
+                                    <label for="pickup" class="checkbox-inline">
+                                        {% if event.pickup %}
+                                            <input type="checkbox" name="status-pickup" checked="checked">注目
+                                        {% else %}
+                                            <input type="checkbox" name="status-pickup">注目
+                                        {% endif %}
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    メイン画像<span class="required">必須</span>
+                                </th>
+                                <td style="padding-bottom: 5px;">
+                                    {% if event.main_image_path %}
+                                        <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">登録済みの画像</p>
+                                        <img id="selectedMainImage" src="{{ event.main_image_path }}" alt="" style="margin-bottom: 20px;">
+                                        <input type="hidden" name="mainImagePath" value="{{ event.main_image_path }}">
+                                    {% else %}
+                                        <p style="margin-bottom: 20px;">メイン画像は未登録です</p>
+                                        <input type="hidden" name="mainImagePath">
+                                    {% endif %}
+                                    <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">更新する画像</p>
+                                    <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+                                    <input type="file" name="updateMainImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateMainImage" src="" alt="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    リスト画像<span class="optional">任意</span>
+                                </th>
+                                <td style="padding-bottom: 5px;">
+                                    {% if event.list_image_path %}
+                                        <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">登録済みの画像</p>
+                                        <img id="mainImage" src="{{ event.list_image_path }}" alt="" style="margin-bottom: 20px;">
+                                        <input type="hidden" name="listImagePath" value="{{ event.list_image_path }}">
+                                    {% else %}
+                                        <p style="margin-bottom: 20px;">リスト画像は未登録です</p>
+                                        <input type="hidden" name="listImagePath">
+                                    {% endif %}
+                                    <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">更新する画像</p>
+                                    <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+                                    <input type="file" name="updateListImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateListImage" src="" alt="">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default edit-close" data-dismiss="modal">閉じる</button>
+                    <button type="button" id="editConfirm" class="btn btn-primary" data-toggle="modal" data-target="#eventEditConfirmModal">更新する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#確認画面#}
+    <div class="modal fade" id="eventEditConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">更新確認</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{ event.event_name }}を更新しますか？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execUpdate" class="btn btn-primary" value="{{ event.id }}">更新を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
