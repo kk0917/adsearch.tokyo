@@ -35,9 +35,12 @@
             <td>{{ manager.user_name }}</td>
             <td>{{ manager.last_name }} {{ manager.first_name }}</td>
             <td>{{ manager.remarks }}</td>
-            <td>
-              <button class="btn btn-default btn-sm edit" value="{{ manager.id }}">編集</button>
-              <button class="btn btn-default btn-sm delete" value="{{ manager.id }}">削除</button>
+            <td style="width: 150px">
+              <button class="btn btn-default btn-sm edit" value="{{ manager.id }}" style="margin:auto;" >編集</button>
+              {#<button class="btn btn-default btn-sm delete" value="{{ manager.id }}" style="margin:auto;">削除</button>#}
+              <button type="button" class="btn btn-primary btn-sm delete-manager" data-toggle="modal" data-target="#managerDeleteModal">
+                削除
+              </button>
             </td>
           </tr>
         {% endfor %}
@@ -47,14 +50,12 @@
   <br>
   <button class="btn btn-primary button-center add">管理者を追加する</button>
 
-  <div id="modalTemplate">
-    <p></p>
-    <button class="btn btn-primary button-center"></button>
-  </div>
+  // 削除画面テンプレート読み込み
+  {% include('admin/manager/delete.html.twig') %}
   
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="/js/manager.js"></script>
+  <script src="/js/admin/manager/manager.js"></script>
 {% endblock %}

@@ -286,7 +286,65 @@ class Event
                 break;
 
             case 'UPDATE':
-                //
+                $this->setId(htmlentities($_POST['id']));
+                $this->setEventName(htmlentities($_POST['eventName'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('categoriesId', $_POST)) {
+                    // カテゴリーIDを格納した配列をセット
+                    $this->setCategoriesId($_POST['categoriesId']);
+                }
+                $this->setDateFrom(htmlentities($_POST['dateFrom'], ENT_QUOTES, 'UTF-8'));
+                $this->setDateTo(htmlentities($_POST['dateTo'], ENT_QUOTES, 'UTF-8'));
+                $this->setBusinessTime(htmlentities($_POST['businessTime'], ENT_QUOTES, 'UTF-8'));
+                $this->setClosingDays(htmlentities($_POST['closingDays'], ENT_QUOTES, 'UTF-8'));
+                $this->setEntryFee(htmlentities($_POST['entryFee'], ENT_QUOTES, 'UTF-8'));
+                $this->setPlaceId(htmlentities($_POST['placeId'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('url', $_POST)) {
+                    $this->setUrl(htmlentities($_POST['url'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('comment', $_POST)) {
+                    $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('status-new', $_POST)) {
+                    $this->setNew(htmlentities($_POST['status-new'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('status-popular', $_POST)) {
+                    $this->setPopular(htmlentities($_POST['status-popular'], ENT_QUOTES, 'UTF-8'));
+                }
+                if (array_key_exists('status-pickup', $_POST)) {
+                    $this->setPickup(htmlentities($_POST['status-pickup'], ENT_QUOTES, 'UTF-8'));
+                }
+                // メイン画像：パス
+                if ($_FILES['updateMainImage']['name']) { // 新しい画像がある場合
+                    // 保存先のパスをセットする
+                    $this->setMainImagePath(htmlentities($_FILES['updateMainImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+
+                    // 保存先の画像情報をセットする
+                        // デコード時のエラーを回避するためにすべての値を文字列に変換する
+                    $_FILES['updateMainImage']['error'] = (string) $_FILES['updateMainImage']['error'];
+                    $_FILES['updateMainImage']['size']  = (string) $_FILES['updateMainImage']['size'];
+                    $this->setMainImageInfo(json_encode($_FILES['updateMainImage']));
+
+                } elseif ($_POST['mainImagePath']) { // 新しい画像が無く既存の画像があれば再登録する
+                    $this->setMainImagePath(htmlentities($_POST['mainImagePath'], ENT_QUOTES, 'UTF-8'));
+                }
+                // リスト画像：パス
+                if ($_FILES['updateListImage']['name']) { // 新しい画像がある場合
+                    // 保存先のパスをセットする
+                    $this->setListImagePath(htmlentities($_FILES['updateListImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+
+                    // 保存先の画像情報をセットする
+                        // デコード時のエラーを回避するためにすべての値を文字列に変換する
+                    $_FILES['updateListImage']['error'] = (string) $_FILES['updateListImage']['error'];
+                    $_FILES['updateListImage']['size']  = (string) $_FILES['updateListImage']['size'];
+                    $this->setListImageInfo(json_encode($_FILES['listImageInfo']));
+
+                } elseif ($_POST['listImagePath']) { // 新しい画像が無く既存の画像があれば再登録する
+                    $this->setListImagePath(htmlentities($_POST['listImagePath'], ENT_QUOTES, 'UTF-8'));
+                }
+
+                $date = new \DateTime();
+                $this->setUpdatedAt($date->format('Y-m-d H:i:s'));
+                $this->setUpdatedManagerId(1); // TODO: セッション管理後にupdatedManagerIdの改修
                 break;
         }
     }

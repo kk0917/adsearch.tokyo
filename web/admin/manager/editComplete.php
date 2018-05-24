@@ -21,23 +21,12 @@ if (count($_POST) == 0) {
     exit();
 }
 
-$manager = new ManagerRepository();
-$manager->setProperties('UPDATE');
-$errors = $manager->validate('UPDATE');
+$managerRepository = new ManagerRepository();
+$managerRepository->setProperties('UPDATE');
+$managerRepository->execute('UPDATE');
 
-// パスワードを保護するためにハッシュ化
-$manager->setPassword(password_hash($manager->getPassword(), PASSWORD_DEFAULT));
-$manager->setPasswordConfirm('');
-
-if (count($errors)) {
-    echo $twig->render('admin/staff/edit.html.twig', [
-        'manager' => $manager,
-        'errors'  => $errors,
-    ]);
-} else {
-    echo $twig->render('admin/staff/editConfirm.html.twig', [
-        'manager' => $manager,
-    ]);
-}
+echo $twig->render('admin/manager/editComplete.html.twig', [
+    'username' => $managerRepository->getUsername(),
+]);
 
 ?>

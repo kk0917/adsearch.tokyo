@@ -2,6 +2,12 @@ h4 {
   margin-top: 30px;
   margin-left: 10px;
 }
+
+button {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
 button a {
   text-decoration: none;
 }
@@ -84,9 +90,10 @@ input[type="text"].short {
   width: 25%;
 }
 
-input[type="submit"] {
+.btn-centering {
     display: block;
     margin: 0 auto;
+    text-align: center;
 }
 
 .error-area {
@@ -168,7 +175,21 @@ input[type="submit"] {
   background: #000;
   display: none;
 }
-/* モーダルウィンドウ全体のスタイル */
+/* モーダルウィンドウ：入力画面の全体のスタイル */
+#modalInputWindow {
+  margin-top: -200px;
+  margin-left: -170px;
+  top: 50%;
+  left: 50%;
+  width: 350px;
+  height: 200px;
+  border-radius: 7px / 7px;
+  position: fixed;
+  z-index: 98;
+  background: #fff;
+  display: none;
+}
+/* モーダルウィンドウ：確認画面の全体のスタイル */
 #modalWindow {
   margin-top: -200px;
   margin-left: -170px;
@@ -176,6 +197,7 @@ input[type="submit"] {
   left: 50%;
   width: 350px;
   height: 200px;
+  border-radius: 7px / 7px;
   position: fixed;
   z-index: 98;
   background: #fff;
@@ -212,4 +234,53 @@ input[type="submit"] {
   font-size: 1em;
   text-align: center;
   margin-top: 30px;
+}
+
+/* イベントのステータス表紙 */
+.icon-new {
+  color: white;
+  background-color: #d75452;
+  font-size: 0.8em;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.icon-popular {
+  color: white;
+  background-color: #5fb760;
+  font-size: 0.8em;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+.icon-pickup {
+  color: white;
+  background-color: #377bb5;
+  font-size: 0.8em;
+  padding: 3px 5px;
+  border-radius: 5px;
+}
+
+/* イベントのテーブルをタブ切り替え */
+#upcomingEvents.table,
+#pastEvents.table {
+  display: none;
+}
+
+/* バリデーション用 */
+.error-message-each-area {
+  margin:0;
+  padding: 0;
+  list-style: none;
+}
+.error-message-each-area li {
+  display: none;
+  color: #e51c23;
+  background: url('../images/common/error.png') no-repeat left center;
+  -webkit-background-size: 12px 12px;
+  -moz-background-size: 12px 12px;
+  background-size: 12px 12px;
+  padding-left: 20px;
+  margin-top: 0.5em;
+}
+.error-message-each-area li:first-child {
+  margin-top: 0;
 }
