@@ -221,7 +221,7 @@ class EventRepository extends Event
                         $dbObject->run('INSERT', $sql, $values);
                     }
                 }
-                break;
+                return $eventId;
 
             case 'UPDATE':
                 $sql = 'UPDATE
