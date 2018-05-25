@@ -299,7 +299,7 @@ class EventRepository extends Event
                 break;
 
             case 'DELETE':
-                $sql = 'UPDATE event SET is_deleted = TRUE WHERE id = ?';
+                $sql = 'UPDATE event SET is_deleted = TRUE, updated_at = now(), updated_manager_id = 1 WHERE id = ?';
 
                 $value = [
                     $this->getId()
