@@ -254,8 +254,26 @@
                     <p>{{ event.event_name }}を更新しますか？</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">戻る</button>
-                    <button type="button" id="execUpdate" class="btn btn-primary" value="{{ event.id }}">更新を実行する</button>
+                    <button type="button" id="backToInput" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execUpdate" class="btn btn-primary" data-toggle="modal" value="{{ event.id }}">更新を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# サーバーエラーメッセージ表示画面 #}
+    <button type="button" id="triggerErrorModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#eventEditValidationErrorModal" style="display: none;"></button>
+    <div class="modal fade" id="eventEditValidationErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">エラー確認</h4>
+                </div>
+                <div class="modal-body">
+                    {# ここにエラーメッセージを動的に挿入する #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeErrorModal" class="btn btn-default" data-dismiss="modal">閉じる</button>
                 </div>
             </div>
         </div>

@@ -9,8 +9,8 @@
             // 確認画面にテキスト追加・削除対象ID設定処理
             var targetId      = deleteButton.parentNode.parentNode.querySelector('#id').value;
             var eventNameAttr = deleteButton.parentNode.parentNode.querySelector('#eventName');
-            document.querySelector('#eventDeleteModal .modal-body').textContent = eventNameAttr.value + ' を削除しますか？';
-            document.querySelector('#eventDeleteModal #execDelete').value = targetId;
+            document.querySelector('#eventDeleteConfirmModal .modal-body').textContent = eventNameAttr.value + ' を削除しますか？';
+            document.querySelector('#eventDeleteConfirmModal #execDelete').value = targetId;
         }, false);
     });
 
@@ -23,9 +23,14 @@
         ajax.send(null);
 
         function execDelete() {
-            if(ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
-                window.alert('削除しました');
-                location.replace('/admin/event');
+            if(ajax.readyState === XMLHttpRequest.DONE) {
+                if (ajax.status === 200) {
+                  window.alert('削除しました');
+                  location.replace('/admin/event');
+                } else {
+                  window.alert('エラーが発生しました。はじめからやり直してください。');
+                  location.replace();
+                }
             }
         };
     }, false);

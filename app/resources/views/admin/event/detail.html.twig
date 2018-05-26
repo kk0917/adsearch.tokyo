@@ -141,12 +141,12 @@
           <td>
             {% set statusCount = 0 %}
             {% if event.new %}
-              新着 
+              新着
               <input type="hidden" id="new" name="status" value="{{ event.new }}">
               {% set statusCount = statusCount + 1 %}
             {% endif %}
             {% if event.popular %}
-              人気 
+              人気
               <input type="hidden" id="popular" name="status" value="{{ event.popular }}">
               {% set statusCount = statusCount + 1 %}
             {% endif %}
@@ -195,10 +195,10 @@
     </div>
   </form>
 
-  <!-- 追加・編集・削除テンプレート読み込み -->
+  <!-- 編集・削除テンプレート読み込み -->
   {% include('admin/event/edit.html.twig') %}
   {% include('admin/event/delete.html.twig') %}
-  
+
 {% endblock %}
 
 {% block javascripts %}
