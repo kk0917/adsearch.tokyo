@@ -2,10 +2,16 @@
 
 {% block title %}イベント一覧{{ parent() }}{% endblock %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="/jquery-multi-select/multi-select.css">
+  <link rel="stylesheet" href="/jquery-ui-1.12.1/jquery-ui.min.css">
+  {{ parent() }}
+{% endblock %}
+
 {% block body %}
 
   <ol class="breadcrumb">
-    <li class="active">Home</li>
+    <li class="active"><a href="/admin">Home</a></li>
     <li class="active">イベント一覧</li>
   </ol>
 
@@ -104,17 +110,32 @@
         </tbody>
       </table>
   </div>
-  
-  <button class="btn btn-primary button-center add"><a href="add.php" style="color:white;text-decoration:none;">イベントを追加する</a></button>
 
-  <div id="modalTemplate">
-    <p></p>
-    <button class="btn btn-primary button-center"></button>
-  </div>
-  
+  <button class="btn btn-primary button-center add" data-toggle="modal" data-target="#eventAddModal" style="font-size: 14px">
+    イベントを追加する
+  </button>
+
+  <!-- 追加テンプレート読み込み -->
+  {% include('admin/event/add.html.twig') %}
+
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
+  <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
+  <script src="/jquery-multi-select/jquery.multi-select.js"></script>
   <script src="/js/admin/event/index.js"></script>
+  <script src="/js/admin/event/add.js"></script>
+  <script>
+    $( function() {
+      // jQuery UI datepicker
+      $( ".datepicker" ).datepicker({
+        dateFormat: "yy-mm-dd",
+      });;
+
+      // jQuery multiselect
+      $('#pre-selected-options').multiSelect();
+    });
+  </script>
 {% endblock %}

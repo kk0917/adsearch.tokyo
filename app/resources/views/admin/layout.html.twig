@@ -35,10 +35,15 @@
       </div>
     </div>
   </header>
-  
+
   <div class="container body-container">
-    
+
     {% block body %}{% endblock %}
+  </div>
+
+  <!-- Ajax通信中ローディング表示 -->
+  <div class="loading">
+
   </div>
 
   <footer>
@@ -54,6 +59,8 @@
   {% block javascripts %}
     <script src="/js/jquery-1.12.4.min.js"></script>
     <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/moment.js"></script>
+    <script src="/js/moment-with-locales.js"></script>
     <script src="/js/common.js"></script>
   {% endblock %}
 </body>
