@@ -259,25 +259,28 @@ class Event
                 if (array_key_exists('comment', $_POST)) {
                     $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
                 }
-                if (array_key_exists('new', $_POST)) {
-                    $this->setNew(htmlentities($_POST['new'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('status-new', $_POST)) {
+                    $this->setNew(htmlentities($_POST['status-new'], ENT_QUOTES, 'UTF-8'));
                 }
-                if (array_key_exists('popular', $_POST)) {
-                    $this->setPopular(htmlentities($_POST['popular'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('status-popular', $_POST)) {
+                    $this->setPopular(htmlentities($_POST['status-popular'], ENT_QUOTES, 'UTF-8'));
                 }
-                if (array_key_exists('pickup', $_POST)) {
-                    $this->setPickup(htmlentities($_POST['pickup'], ENT_QUOTES, 'UTF-8'));
+                if (array_key_exists('status-pickup', $_POST)) {
+                    $this->setPickup(htmlentities($_POST['status-pickup'], ENT_QUOTES, 'UTF-8'));
                 }
-                if (count($_FILES)) {
-                    $this->setMainImageInfo($_FILES['mainImageInfo']);
-
-                } elseif (array_key_exists('mainImagePath', $_POST)) { // 確認画面 -> 登録完了画面
-                    $this->setMainImagePath($_POST['mainImagePath']);
+                // メイン画像
+                if ($_FILES['updateMainImage']['name']) { // 画像が選択されている場合
+                    // 保存先のパスをセットする
+                    $this->setMainImagePath(htmlentities($_FILES['updateMainImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+                    // 画像情報をセットする
+                    $this->setMainImageInfo(json_encode($_FILES['updateMainImage']));
                 }
-                if (count($_FILES)) {
-                    $this->setListImageInfo($_FILES['listImageInfo']);
-                } elseif (array_key_exists('listImagePath', $_POST)) {
-                    $this->setListImagePath($_POST['listImagePath']);
+                // リスト画像
+                if ($_FILES['updateListImage']['name']) { // 画像が選択されている場合
+                    // 保存先のパスをセットする
+                    $this->setListImagePath(htmlentities($_FILES['updateListImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+                    // 画像情報をセットする
+                    $this->setListImageInfo(json_encode($_FILES['updateListImage']));
                 }
 
                 $date = new \DateTime();

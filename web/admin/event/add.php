@@ -2,23 +2,27 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
 
-use AppBundle\Entity\CategoryRepository;
-use AppBundle\Entity\PlaceRepository;
+use AppBundle\Entity\EventRepository;
 
-// カテゴリー名一覧を取得
-$categoryRepository = new CategoryRepository();
-$categories         = $categoryRepository->execute('SELECT_ALL');
+// このページに直接アクセスしてきた場合はエラー画面遷移
+if (count($_POST) == 0) {
+    echo $twig->render('admin/error.html.twig', [
+        'error' => '操作に誤りがありました。初めからやり直してください。',
+    ]);
+    exit();
+}
+$date = new DateTime();
 
-// 会場一覧を取得
-$placeRepository = new PlaceRepository();
-$places          = $placeRepository->execute('SELECT_ALL');
+$eventRepository = new EventRepository();
+$eventRepository->setProperties('INSERT');
 
-$loader   = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT'] . '/app/resources/views/');
-$twig     = new Twig_Environment($loader);
+$errors = $eventRepository->validate();
+if (count($errors)) {
+    http_response_code(400);
+    echo json_encode($errors);
+    exit();
+}
+$eventRepository->checkUploadImage();
+$eventId = $eventRepository->execute('INSERT');
 
-echo $twig->render('admin/event/add.html.twig', [
-    'categories' => $categories,
-    'places'     => $places
-]);
-
-?>
+echo $eventId . ' INSERT OK';
