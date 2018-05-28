@@ -82,9 +82,9 @@ class DatabaseAccessObject
                 return $stmt->fetchAll();
                 break;
 
+            case 'FIND':
             case 'SELECT_BY_ONE':
                 return $stmt->fetch();
-                break;
 
             case 'INSERT':
                 return $lastInsertId;

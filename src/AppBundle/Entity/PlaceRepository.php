@@ -140,6 +140,13 @@ class PlaceRepository extends Place
 
                 return $dbObject->run('SELECT_ALL', $sql);
 
+            case 'FIND':
+                $sql = 'SELECT * FROM place WHERE id = ? AND is_deleted = FALSE';
+                $value = [
+                    $this->getId()
+                ];
+                return $dbObject->run('FIND', $sql, $value);
+
             case 'INSERT':
                 $sql = 'INSERT INTO place (
                          name,

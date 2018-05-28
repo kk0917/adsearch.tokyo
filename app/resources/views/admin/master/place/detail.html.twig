@@ -1,0 +1,168 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}会場詳細画面{{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="/jquery-multi-select/multi-select.css">
+  <link rel="stylesheet" href="/jquery-ui-1.12.1/jquery-ui.min.css">
+  {{ parent() }}
+{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active"><a href="/admin">Home</a></li>
+    <li class="active"><a href="/admin/master/place">会場一覧</a></li>
+    <li class="active">会場詳細</li>
+  </ol>
+
+  <nav aria-label="...">
+    <ul class="pager">
+      <li class="previous"><a onclick="history.back()"><span aria-hidden="true">&larr;</span>戻る</a></li>
+    </ul>
+  </nav>
+
+  <h4 class="page-header">会場詳細画面</h4>
+  <form action="edit.php" method="post" class="form-horizontal" onsubmit="return false">
+    <div class="btn-centering">
+      <button type="button" class="btn btn-default btn-lg edit-place" data-toggle="modal" data-target="#placeEditModal" style="font-size: 14px">
+        編集する
+      </button>
+      <button type="button" class="btn btn-primary btn-lg delete-place" data-toggle="modal" data-target="#placeDeleteConfirmModal" style="font-size: 14px">
+        削除する
+      </button>
+    </div>
+
+    <table>
+      <input type="hidden" id="id" value="{{ place.id }}">
+      <tbody>
+        <tr>
+          <th>会場名</th>
+          <td>
+            {{ place.name }}
+            <input type="hidden" id="name" name="name" class="form-control" value="{{ place.name }}">
+          </td>
+        </tr>
+        <tr>
+          <th>住所</th>
+          <td>
+            <p>{{ place.zip_code1 }}-{{ place.zip_code2 }}</p>
+            <p>{{ place.prefecture }}{{ place.address1 }}{{ place.address2 }}{{ place.address3 }}{{ place.address4 }}</p>
+            <input type="hidden" name="zip_code1" value="{{ place.zip_code1 }}">
+            <input type="hidden" name="zip_code2" value="{{ place.zip_code2 }}">
+            <input type="hidden" name="prefecture" value="{{ place.prefecture }}">
+            <input type="hidden" name="address1" value="{{ place.address1 }}">
+            <input type="hidden" name="address2" value="{{ place.address2 }}">
+            <input type="hidden" name="address3" value="{{ place.address3 }}">
+            <input type="hidden" name="address4" value="{{ place.address4 }}">
+          </td>
+        </tr>
+        <tr>
+          <th>交通情報</th>
+          <td>
+            {{ place.access_information }}
+            <input type="hidden" name="access_information" value="{{ place.access_information }}">
+          </td>
+        </tr>
+        <tr>
+          <th>電話番号</th>
+          <td>
+            {{ place.phone }}
+            <input type="hidden" name="phone" value="{{ place.phone }}">
+          </td>
+        </tr>
+        <tr>
+          <th>営業日</th>
+          <td>
+            {{ place.business_days }}
+            <input type="hidden" name="business-days" class="form-control" value="{{ place.business_days }}">
+          </td>
+        </tr>
+        <tr>
+          <th>休館日</th>
+          <td>
+            {{ place.closing_days }}
+            <input type="hidden" name="closing-days" class="form-control" value="{{ place.closing_days }}">
+          </td>
+        </tr>
+        <tr>
+          <th>URL</th>
+          <td>
+            {% if place.url %}
+              {{ place.url }}
+              <input type="hidden" name="url" class="form-control" value="{{ place.url }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>メイン画像</th>
+          <td>
+            {% if place.main_image_path %}
+              <img src="{{ place.main_image_path }}" alt="">
+              <input type="hidden" name="main-image-path" value="{{ place.main_image_path }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>サブ画像</th>
+          <td>
+            {% if place.sub_image_path %}
+              <img src="{{ place.sub_image_path }}" alt="">
+              <input type="hidden" name="sub-image-path" value="{{ place.sub_image_path }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>備考</th>
+          <td>
+            {% if place.comment %}
+              {{ place.comment }}
+              <input type="hidden" name="comment" class="form-control" value="{{ place.comment }}">
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="btn-centering">
+      <button type="button" class="btn btn-default btn-lg edit-place" data-toggle="modal" data-target="#placeEditModal" style="font-size: 14px">
+        編集する
+      </button>
+      <button type="button" class="btn btn-primary btn-lg delete-place" data-toggle="modal" data-target="#placeDeleteConfirmModal" style="font-size: 14px">
+        削除する
+      </button>
+    </div>
+  </form>
+
+  <!-- 編集・削除テンプレート読み込み -->
+  {% include('admin/master/place/edit.html.twig') %}
+  {% include('admin/master/place/delete.html.twig') %}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
+  <script src="/jquery-multi-select/jquery.multi-select.js"></script>
+  <!-- <script src="/js/admin/master/place/edit.js"></script> -->
+  <!-- <script src="/js/admin/master/place/delete.js"></script> -->
+  <script>
+    $( function() {
+      // jQuery UI datepicker
+      $( ".datepicker" ).datepicker({
+        dateFormat: "yy-mm-dd",
+      });;
+
+      // jQuery multiselect
+      $('#pre-selected-options').multiSelect();
+    });
+  </script>
+{% endblock %}
