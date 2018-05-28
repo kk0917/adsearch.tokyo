@@ -13,7 +13,8 @@ class Place
 {
     private $id;
     private $name;
-    private $zipCode;
+    private $zipCode1;
+    private $zipCode2;
     private $prefecture;
     private $address1;
     private $address2;
@@ -25,7 +26,9 @@ class Place
     private $closingDays;
     private $url;
     private $mainImagePath;
+    private $mainImageInfo;
     private $subImagePath;
+    private $subImageInfo;
     private $comment;
     private $isDeleted;
     private $createdAt;
@@ -49,12 +52,20 @@ class Place
         $this->name = $name;
     }
 
-    public function getZipCode()
+    public function getZipCode1()
     {
-        return $this->zipCode;
+        return $this->zipCode1;
     }
-    public function setZipCode($zipCode) {
-        $this->zipCode = $zipCode;
+    public function setZipCode1($zipCode1) {
+        $this->zipCode1 = $zipCode1;
+    }
+
+    public function getZipCode2()
+    {
+        return $this->zipCode2;
+    }
+    public function setZipCode2($zipCode2) {
+        $this->zipCode2 = $zipCode2;
     }
 
     public function getPrefecture()
@@ -145,12 +156,28 @@ class Place
         $this->mainImagePath = $mainImagePath;
     }
 
+    public function getMainImageInfo()
+    {
+        return $this->mainImageInfo;
+    }
+    public function setMainImageInfo($mainImageInfo) {
+        $this->mainImageInfo = $mainImageInfo;
+    }
+
     public function getSubImagePath()
     {
         return $this->subImagePath;
     }
     public function setSubImagePath($subImagePath) {
         $this->subImagePath = $subImagePath;
+    }
+
+    public function getSubImageInfo()
+    {
+        return $this->subImageInfo;
+    }
+    public function setSubImageInfo($subImageInfo) {
+        $this->subImageInfo = $subImageInfo;
     }
 
     public function getComment()
@@ -197,7 +224,82 @@ class Place
     {
         return $this->updatedManagerId;
     }
-    public function setUpdatedManagerId($updatedManagerId) {
+    public function setUpdatedManagerId($updatedManagerId)
+    {
         $this->updatedManagerId = $updatedManagerId;
+    }
+
+    /**
+     * DB更新時に必要なプロパティに値をセット
+     * @param string $type データ操作種別
+     */
+    public function setProperties($type)
+    {
+        switch ($type) {
+            case 'INSERT':
+                $this->setName(htmlentities($_POST['name'], ENT_QUOTES, 'UTF-8'));
+                $this->setZipCode1(htmlentities($_POST['zip-code1'], ENT_QUOTES, 'UTF-8'));
+                $this->setZipCode2(htmlentities($_POST['zip-code2'], ENT_QUOTES, 'UTF-8'));
+                $this->setPrefecture(htmlentities($_POST['prefecture'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress1(htmlentities($_POST['address1'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress2(htmlentities($_POST['address2'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress3(htmlentities($_POST['address3'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress4(htmlentities($_POST['address4'], ENT_QUOTES, 'UTF-8'));
+                $this->setAccessInformation(htmlentities($_POST['access-information'], ENT_QUOTES, 'UTF-8'));
+                $this->setPhone(htmlentities($_POST['phone'], ENT_QUOTES, 'UTF-8'));
+                $this->setBusinessDays(htmlentities($_POST['business-days'], ENT_QUOTES, 'UTF-8'));
+                $this->setClosingDays(htmlentities($_POST['closing-days'], ENT_QUOTES, 'UTF-8'));
+                $this->setUrl(htmlentities($_POST['url'], ENT_QUOTES, 'UTF-8'));
+                // メイン画像
+                if ($_FILES['updateMainImage']['name']) { // 画像が選択されている場合
+                    // 保存先のパスをセットする
+                    $this->setMainImagePath(htmlentities($_FILES['updateMainImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+                    // 画像情報をセットする
+                    $this->setMainImageInfo(json_encode($_FILES['updateMainImage']));
+                }
+                // サブ画像
+                if ($_FILES['updateSubImage']['name']) { // 画像が選択されている場合
+                    // 保存先のパスをセットする
+                    $this->setSubImagePath(htmlentities($_FILES['updateSubImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+                    // 画像情報をセットする
+                    $this->setSubImageInfo(json_encode($_FILES['updateSubImage']));
+                }
+                $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
+
+                $date = new \DateTime();
+                $this->setCreatedAt($date->format('Y-m-d H:i:s'));
+                $this->setCreatedManagerId(1); // TODO: セッション管理後にcreatedManagerIdの改修
+                break;
+        }
+    }
+
+    public function getProperties()
+    {
+        return $place = [
+            'id'               => $this->getId(),
+            'name'             => $this->getName(),
+            'zipCode1'         => $this->getZipCode1(),
+            'zipCode2'         => $this->getZipCode2(),
+            'prefecture'       => $this->getPrefecture(),
+            'address1'         => $this->getAddress1(),
+            'address2'         => $this->getAddress2(),
+            'address3'         => $this->getAddress3(),
+            'address4'         => $this->getAddress4(),
+            'acccessInformation' => $this->getAccessInformation(),
+            'phone'              => $this->getPhone(),
+            'businessDays'       => $this->getBusinessDays(),
+            'closingDays'        => $this->getClosingDays(),
+            'url'                => $this->getUrl(),
+            'mainImagePath'    => $this->getMainImagePath(),
+            'mainImageInfo'    => $this->getMainImageInfo(),
+            'subImagePath'     => $this->getSubImagePath(),
+            'subImageInfo'     => $this->getSubImageInfo(),
+            'comment'          => $this->getComment(),
+            'isDeleted'        => $this->getIsDeleted(),
+            'createdAt'        => $this->getCreatedAt(),
+            'createdManagerId' => $this->getCreatedManagerId(),
+            'updatedAt'        => $this->getUpdatedAt(),
+            'updatedManagerId' => $this->getUpdatedManagerId()
+        ];
     }
 }

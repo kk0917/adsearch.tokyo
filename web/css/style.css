@@ -75,6 +75,13 @@ th, td {
 	line-height: 1.2;
 }
 
+dt {
+  margin-bottom: 5px;
+}
+dd {
+  margin: 10px 0 10px 15px;
+}
+
 input[name="last_name"],
 input[name="first_name"] {
   display: inline;
