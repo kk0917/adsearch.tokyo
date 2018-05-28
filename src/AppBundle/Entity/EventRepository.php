@@ -113,7 +113,7 @@ class EventRepository extends Event
         // メイン画像の処理
         $mainImageInfo = json_decode($this->getMainImageInfo(), true);
         if ($mainImageInfo['name']) {
-            $mainImageName = $date->format('YmdHis') . $mainImageInfo['name'];
+            $mainImageName = $date->format('YmdHis') . rand(1000, 9999) . $mainImageInfo['name'];
             move_uploaded_file($mainImageInfo['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath . $mainImageName);
             $this->setMainImagePath($imagePath . $mainImageName);
         }
@@ -121,7 +121,7 @@ class EventRepository extends Event
         // リスト画像の処理
         $listImageInfo = json_decode($this->getListImageInfo(), true);
         if ($listImageInfo['name']) {
-            $listImageName = $date->format('YmdHis') . $listImageInfo['name'];
+            $listImageName = $date->format('YmdHis') . rand(1000, 9999) . $listImageInfo['name'];
             move_uploaded_file($listImageInfo['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $imagePath . $listImageName);
             $this->setListImagePath($imagePath . $listImageName);
         }
