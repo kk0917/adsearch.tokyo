@@ -28,14 +28,16 @@
       <thead>
         <tr>
           <th style="width:5%">#</th>
-          <th style="width:95%">カテゴリ名</th>
+          <th style="width:80%">カテゴリ名</th>
+          <th style="width:15%">更新日</th>
         </tr>
       </thead>
       <tbody>
         {% for category in categories %}
-          <tr data-href="{{ category.id }}" style="cursor:pointer;">
+          <tr data-href="{{ category.id }}">
             <td>{{ category.id }}</td>
             <td>{{ category.name }}</td>
+            <td>{{ category.update_at|date('Y-m-d') }}</td>
           </tr>
         {% endfor %}
       </tbody>
