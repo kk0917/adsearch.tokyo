@@ -89,6 +89,9 @@ class DatabaseAccessObject
             case 'INSERT':
                 return $lastInsertId;
                 break;
+
+            case 'UPDATE':
+                break; // 何もしない
         }
     }
 
