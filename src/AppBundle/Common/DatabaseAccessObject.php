@@ -82,13 +82,19 @@ class DatabaseAccessObject
                 return $stmt->fetchAll();
                 break;
 
+            case 'FIND':
             case 'SELECT_BY_ONE':
                 return $stmt->fetch();
-                break;
 
             case 'INSERT':
                 return $lastInsertId;
                 break;
+
+            case 'UPDATE':
+                break; // 何もしない
+
+            case 'DELETE':
+                break; // 何もしない
         }
     }
 

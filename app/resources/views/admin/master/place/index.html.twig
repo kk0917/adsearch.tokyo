@@ -34,13 +34,13 @@
         </tr>
       </thead>
       <tbody>
-        {% for event in upcomingEvents %}
-          <tr data-href="{{ event.id }}" style="cursor:pointer;">
+        {% for place in places %}
+          <tr data-href="{{ place.id }}" style="cursor:pointer;">
             <td>{{ place.id }}</td>
             <td>{{ place.name }}</td>
-            <td>{{ place.prefecture }}{{ place.address1 }}</td>
+            <td>{{ place.prefecture }}{{ place.address1 }}{{ place.address2 }}</td>
             <td>
-              {% if event.url %}
+              {% if place.url %}
                 <a href="{{ place.url }}" target="_blank" class="url">{{ place.url|slice(0, 30) }}...</a>
               {% else %}
                 -
@@ -66,7 +66,7 @@
   <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
   <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
   <script src="/jquery-multi-select/jquery.multi-select.js"></script>
-  <!-- <script src="/js/admin/master/place/index.js"></script> -->
+  <script src="/js/admin/master/place/index.js"></script>
   <script src="/js/admin/master/place/add.js"></script>
   <script>
     $( function() {

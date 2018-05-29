@@ -140,6 +140,13 @@ class PlaceRepository extends Place
 
                 return $dbObject->run('SELECT_ALL', $sql);
 
+            case 'FIND':
+                $sql = 'SELECT * FROM place WHERE id = ? AND is_deleted = FALSE';
+                $value = [
+                    $this->getId()
+                ];
+                return $dbObject->run('FIND', $sql, $value);
+
             case 'INSERT':
                 $sql = 'INSERT INTO place (
                          name,
@@ -190,6 +197,68 @@ class PlaceRepository extends Place
                 $placeId = $dbObject->run('INSERT', $sql, $values);
 
                 return $placeId;
+
+            case 'UPDATE':
+                $sql = 'UPDATE
+                            place
+                        SET
+                            name = ?,
+                            zip_code1 = ?,
+                            zip_code2 = ?,
+                            prefecture = ?,
+                            address1 = ?,
+                            address2 = ?,
+                            address3 = ?,
+                            address4 = ?,
+                            access_information = ?,
+                            phone = ?,
+                            business_days = ?,
+                            closing_days = ?,
+                            url = ?,
+                            main_image_path = ?,
+                            main_image_info = ?,
+                            sub_image_path = ?,
+                            sub_image_info = ?,
+                            comment = ?,
+                            updated_at = ?,
+                            updated_manager_id = ?
+                        WHERE
+                            id = ?';
+                $values = [
+                    $this->getName(),
+                    $this->getZipCode1(),
+                    $this->getZipCode2(),
+                    $this->getPrefecture(),
+                    $this->getAddress1(),
+                    $this->getAddress2(),
+                    $this->getAddress3(),
+                    $this->getAddress4(),
+                    $this->getAccessInformation(),
+                    $this->getPhone(),
+                    $this->getBusinessDays(),
+                    $this->getClosingDays(),
+                    $this->getUrl(),
+                    $this->getMainImagePath(),
+                    $this->getMainImageInfo(),
+                    $this->getSubImagePath(),
+                    $this->getSubImageInfo(),
+                    $this->getComment(),
+                    $this->getUpdatedAt(),
+                    $this->getUpdatedManagerId(),
+                    $this->getId()
+                ];
+                $dbObject->run('UPDATE', $sql, $values);
+                break;
+
+            case 'DELETE':
+                $sql = 'UPDATE place SET is_deleted = TRUE, updated_at = now(), updated_manager_id = 1 WHERE id = ?'; // TODO: updated_manager_idを改修
+
+                $value = [
+                    $this->getId()
+                ];
+
+                $dbObject->run('DELETE', $sql, $value);
+                break;
         }
     }
 }
