@@ -25,7 +25,6 @@ class CategoryRepository extends Category
                 $sql = 'SELECT * FROM category WHERE is_deleted = FALSE ORDER BY id';
 
                 return $dbObject->run('SELECT_ALL', $sql);
-                break;
         }
     }
 }
