@@ -57,6 +57,16 @@ class CategoryRepository extends Category
 
                 $categoryId = $dbObject->run('INSERT', $sql, $values);
                 return $categoryId;
+
+            case 'DELETE':
+                $sql = 'UPDATE category SET is_deleted = TRUE, updated_at = now(), updated_manager_id = 1 WHERE id = ?'; // TODO: updated_manager_idを改修
+
+                $value = [
+                    $this->getId()
+                ];
+
+                $dbObject->run('DELETE', $sql, $value);
+                break;
         }
     }
 }
