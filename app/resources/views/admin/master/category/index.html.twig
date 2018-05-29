@@ -28,8 +28,9 @@
       <thead>
         <tr>
           <th style="width:5%">#</th>
-          <th style="width:80%">カテゴリ名</th>
-          <th style="width:15%">更新日</th>
+          <th style="width:68%">カテゴリ名</th>
+          <th style="width:12%">更新日</th>
+          <th style="width:15%">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -38,13 +39,19 @@
             <td>{{ category.id }}</td>
             <td>{{ category.name }}</td>
             <td>{{ category.update_at|date('Y-m-d') }}</td>
+            <td>
+              <button class="btn btn-default btn-sm edit" value="{{ category.id }}" style="margin:auto;" >編集</button>
+              <button type="button" class="btn btn-primary btn-sm delete-category" data-toggle="modal" data-target="#categoryDeleteModal">
+                削除
+              </button>
+            </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-  <button class="btn btn-primary button-center add" data-toggle="modal" data-target="#placeAddModal" style="font-size: 14px">
+  <button class="btn btn-primary button-center add" data-toggle="modal" data-target="#categoryAddModal" style="font-size: 14px">
     カテゴリを追加する
   </button>
 

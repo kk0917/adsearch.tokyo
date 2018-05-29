@@ -74,4 +74,34 @@ class Category
     public function setUpdatedManagerId($updatedManagerId) {
         $this->updatedManagerId = $updatedManagerId;
     }
+
+    /**
+     * DB更新時に必要なプロパティに値をセット
+     * @param string $type データ操作種別
+     */
+    public function setProperties($type)
+    {
+        switch ($type) {
+            case 'INSERT':
+                $this->setName(htmlentities($_POST['name'], ENT_QUOTES, 'UTF-8'));
+
+                $date = new \DateTime();
+                $this->setCreatedAt($date->format('Y-m-d H:i:s'));
+                $this->setCreatedManagerId(1); // TODO: セッション管理後にcreatedManagerIdの改修
+                break;
+        }
+    }
+
+    public function getProperties()
+    {
+        return $category = [
+            'id'               => $this->getId(),
+            'name'             => $this->getName(),
+            'isDeleted'        => $this->getIsDeleted(),
+            'createdAt'        => $this->getCreatedAt(),
+            'createdManagerId' => $this->getCreatedManagerId(),
+            'updatedAt'        => $this->getUpdatedAt(),
+            'updatedManagerId' => $this->getUpdatedManagerId()
+        ];
+    }
 }
