@@ -249,6 +249,16 @@ class PlaceRepository extends Place
                 ];
                 $dbObject->run('UPDATE', $sql, $values);
                 break;
+
+            case 'DELETE':
+                $sql = 'UPDATE place SET is_deleted = TRUE, updated_at = now(), updated_manager_id = 1 WHERE id = ?'; // TODO: updated_manager_idを改修
+
+                $value = [
+                    $this->getId()
+                ];
+
+                $dbObject->run('DELETE', $sql, $value);
+                break;
         }
     }
 }

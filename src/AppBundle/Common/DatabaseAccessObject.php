@@ -92,6 +92,9 @@ class DatabaseAccessObject
 
             case 'UPDATE':
                 break; // 何もしない
+
+            case 'DELETE':
+                break; // 何もしない
         }
     }
 
