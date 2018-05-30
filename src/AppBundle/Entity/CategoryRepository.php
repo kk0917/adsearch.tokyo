@@ -58,6 +58,26 @@ class CategoryRepository extends Category
                 $categoryId = $dbObject->run('INSERT', $sql, $values);
                 return $categoryId;
 
+            case 'UPDATE':
+                $sql = 'UPDATE
+                            category
+                        SET
+                            name = ?,
+                            updated_at = ?,
+                            updated_manager_id = ?
+                        WHERE
+                            id = ?';
+
+                $values = [
+                    $this->getName(),
+                    $this->getUpdatedAt(),
+                    $this->getUpdatedManagerId(),
+                    $this->getId()
+                ];
+
+                $dbObject->run('UPDATE', $sql, $values);
+                break;
+
             case 'DELETE':
                 $sql = 'UPDATE category SET is_deleted = TRUE, updated_at = now(), updated_manager_id = 1 WHERE id = ?'; // TODO: updated_manager_idを改修
 

@@ -34,8 +34,8 @@
   });
 
   // バリデーションエラーメッセージモーダル画面を閉じる時に一緒に更新前確認モーダル画面も閉じる
-  document.getElementById('closeErrorModal').addEventListener('click', function() {
-    document.getElementById('backToInput').click();
+  document.getElementById('closeAddErrorModal').addEventListener('click', function() {
+    document.getElementById('addBackToInput').click();
   }, false);
 
   // 追加実行イベント
@@ -66,7 +66,7 @@
             errorModalBody.appendChild(p);
           });
             // モーダル画面を表示させるために強制的にクリックイベントを発生させる
-          document.getElementById('triggerErrorModal').click();
+          document.getElementById('triggerAddErrorModal').click();
         }
       }
     };

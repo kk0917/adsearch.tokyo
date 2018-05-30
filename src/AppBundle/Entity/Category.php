@@ -87,7 +87,16 @@ class Category
 
                 $date = new \DateTime();
                 $this->setCreatedAt($date->format('Y-m-d H:i:s'));
-                $this->setCreatedManagerId(1); // TODO: セッション管理後にcreatedManagerIdの改修
+                $this->setCreatedManagerId(1); // TODO: セッション管理後にupdatedManagerIdの改修
+                break;
+
+            case 'UPDATE':
+                $this->setId(htmlentities($_POST['id'], ENT_QUOTES, 'UTF-8'));
+                $this->setName(htmlentities($_POST['name'], ENT_QUOTES, 'UTF-8'));
+
+                $date = new \DateTime();
+                $this->setUpdatedAt($date->format('Y-m-d H:i:s'));
+                $this->setUpdatedManagerId(1); // TODO: セッション管理後にupdatedManagerIdの改修
                 break;
         }
     }
