@@ -1,0 +1,73 @@
+<!-- カテゴリ編集モーダル画面（Bootstrap3仕様参照） -->
+<div id="categoryEditArea">
+    {#入力画面#}
+    <div class="modal fade" id="categoryEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 100px; margin-left: -400px; top: 50%; left: 50%; width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close edit-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">カテゴリ編集</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editCategoryForm" action="edit.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <table>
+                            <input type="hidden" name="id" value="<!-- IDを動的にセット -->">
+                            <tbody>
+                            <tr>
+                                <th>カテゴリ名<span class="required">必須</span></th>
+                                <td>
+                                    <input type="text" name="name" class="form-control" placeholder="user1234" data-minlength="4"　value="<!-- 既存のカテゴリ名を動的にセット -->" required>
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required">必須項目です</li>
+                                        <li data-error="minlength">4文字以上で入力してください</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default edit-close" data-dismiss="modal">閉じる</button>
+                    <button type="button" id="editConfirm" class="btn btn-primary" data-toggle="modal" data-target="#categoryEditConfirmModal">更新する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#確認画面#}
+    <div class="modal fade" id="categoryEditConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">追加確認</h4>
+                </div>
+                <div class="modal-body">
+                    <p>更新しますか？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="editBackToInput" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execUpdate" class="btn btn-primary" data-toggle="modal" value="<!-- IDを動的にセット -->">更新を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# サーバーエラーメッセージ表示画面 #}
+    <button type="button" id="triggerEditErrorModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#categoryEditValidationErrorModal" style="display: none;"></button>
+    <div class="modal fade" id="categoryEditValidationErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">エラー確認</h4>
+                </div>
+                <div class="modal-body">
+                    {# ここにエラーメッセージを動的に挿入する #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeEditErrorModal" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
