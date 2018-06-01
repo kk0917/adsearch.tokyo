@@ -3,15 +3,15 @@
 {% block title %}カテゴリ一覧{{ parent() }}{% endblock %}
 
 {% block stylesheets %}
-  <link rel="stylesheet" href="/jquery-multi-select/multi-select.css">
-  <link rel="stylesheet" href="/jquery-ui-1.12.1/jquery-ui.min.css">
+  <link rel="stylesheet" href="/web/jquery-multi-select/multi-select.css">
+  <link rel="stylesheet" href="/web/jquery-ui-1.12.1/jquery-ui.min.css">
   {{ parent() }}
 {% endblock %}
 
 {% block body %}
 
   <ol class="breadcrumb">
-    <li class="active"><a href="/admin">Home</a></li>
+    <li class="active"><a href="/admin/">Home</a></li>
     <li class="active">カテゴリ一覧</li>
   </ol>
 
@@ -64,11 +64,11 @@
 
 {% block javascripts %}
   {{ parent() }}
-  <script src="/jquery-ui-1.12.1/jquery-ui.min.js"></script>
-  <script src="/jquery-ui-1.12.1/datepicker-ja.js"></script>
-  <script src="/jquery-multi-select/jquery.multi-select.js"></script>
-  <script src="/js/admin/master/category/index.js"></script>
-  <script src="/js/admin/master/category/add.js"></script>
+  <script src="/web/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+  <script src="/web/jquery-ui-1.12.1/datepicker-ja.js"></script>
+  <script src="/web/jquery-multi-select/jquery.multi-select.js"></script>
+  <script src="/web/js/admin/master/category/index.js"></script>
+  <script src="/web/js/admin/master/category/add.js"></script>
   <script>
     $( function() {
       // jQuery UI datepicker
