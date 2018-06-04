@@ -3,14 +3,14 @@
 {% block title %}TOP{{ parent() }}{% endblock %}
 
 {% block body %}
-  <div id="contents" class="cf">
-    <aside class="contents_menu cf">
-      <section id="contents_menu1">
-        <h1>Contents Menu1</h1>
-      </section>
-      <section id="contents_menu2">
-        <h1>Contents Menu2</h1>
-      </section>
-    </aside>
-  </div>
+<div class="container-fluid">
+    <div class="row sampleRow" style="border: solid 1px;">
+        {% for event in upcomingEvents %}
+          <div class="col-xs-12 col-sm-6 col-md-4 event">
+            <img src="" alt="">
+            <p>{{ event.event_name }}</p>
+          </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
