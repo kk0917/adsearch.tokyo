@@ -1,0 +1,16 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}TOP{{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row sampleRow" style="border: solid 1px;">
+        {% for event in upcomingEvents %}
+          <div class="col-xs-12 col-sm-6 col-md-4 event">
+            <img src="" alt="">
+            <p>{{ event.event_name }}</p>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

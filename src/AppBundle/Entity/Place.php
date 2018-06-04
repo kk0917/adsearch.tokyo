@@ -270,6 +270,51 @@ class Place
                 $this->setCreatedAt($date->format('Y-m-d H:i:s'));
                 $this->setCreatedManagerId(1); // TODO: セッション管理後にcreatedManagerIdの改修
                 break;
+
+            case 'UPDATE':
+                $this->setId(htmlentities($_POST['id']));
+                $this->setName(htmlentities($_POST['name'], ENT_QUOTES, 'UTF-8'));
+                $this->setZipCode1(htmlentities($_POST['zip-code1'], ENT_QUOTES, 'UTF-8'));
+                $this->setZipCode2(htmlentities($_POST['zip-code2'], ENT_QUOTES, 'UTF-8'));
+                $this->setPrefecture(htmlentities($_POST['prefecture'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress1(htmlentities($_POST['address1'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress2(htmlentities($_POST['address2'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress3(htmlentities($_POST['address3'], ENT_QUOTES, 'UTF-8'));
+                $this->setAddress4(htmlentities($_POST['address4'], ENT_QUOTES, 'UTF-8'));
+                $this->setAccessInformation(htmlentities($_POST['access-information'], ENT_QUOTES, 'UTF-8'));
+                $this->setPhone(htmlentities($_POST['phone'], ENT_QUOTES, 'UTF-8'));
+                $this->setBusinessDays(htmlentities($_POST['business-days'], ENT_QUOTES, 'UTF-8'));
+                $this->setClosingDays(htmlentities($_POST['closing-days'], ENT_QUOTES, 'UTF-8'));
+                $this->setUrl(htmlentities($_POST['url'], ENT_QUOTES, 'UTF-8'));
+                // メイン画像：パス
+                if ($_FILES['updateMainImage']['name']) { // 新しい画像がある場合
+                    // 保存先のパスをセットする
+                    $this->setMainImagePath(htmlentities($_FILES['updateMainImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+
+                    // 保存先の画像情報をセットする
+                        // デコード時のエラーを回避するためにすべての値を文字列に変換する
+                    $_FILES['updateMainImage']['error'] = (string) $_FILES['updateMainImage']['error'];
+                    $_FILES['updateMainImage']['size']  = (string) $_FILES['updateMainImage']['size'];
+                    $this->setMainImageInfo(json_encode($_FILES['updateMainImage']));
+                }
+                // サブ画像：パス
+                if ($_FILES['updateSubImage']['name']) { // 新しい画像がある場合
+                    // 保存先のパスをセットする
+                    $this->setSubImagePath(htmlentities($_FILES['updateSubImage']['tmp_name'], ENT_QUOTES, 'UTF-8'));
+
+                    // 保存先の画像情報をセットする
+                        // デコード時のエラーを回避するためにすべての値を文字列に変換する
+                    $_FILES['updateSubImage']['error'] = (string) $_FILES['updateSubImage']['error'];
+                    $_FILES['updateSubImage']['size']  = (string) $_FILES['updateSubImage']['size'];
+                    $this->setSubImageInfo(json_encode($_FILES['updateSubImage']));
+                }
+
+                $this->setComment(htmlentities($_POST['comment'], ENT_QUOTES, 'UTF-8'));
+
+                $date = new \DateTime();
+                $this->setUpdatedAt($date->format('Y-m-d H:i:s'));
+                $this->setUpdatedManagerId(1); // TODO: セッション管理後にupdatedManagerIdの改修
+                break;
         }
     }
 

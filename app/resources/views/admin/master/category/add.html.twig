@@ -1,0 +1,72 @@
+<!-- カテゴリ追加モーダル画面（Bootstrap3仕様参照） -->
+<div id="categoryAddArea">
+    {#入力画面#}
+    <div class="modal fade" id="categoryAddModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 100px; margin-left: -400px; top: 50%; left: 50%; width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close add-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">カテゴリ追加</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addCategoryForm" action="add.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>カテゴリ名<span class="required">必須</span></th>
+                                <td>
+                                    <input type="text" name="name" class="form-control" placeholder="user1234" data-minlength="4" required>
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required">必須項目です</li>
+                                        <li data-error="minlength">4文字以上で入力してください</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default add-close" data-dismiss="modal">閉じる</button>
+                    <button type="button" id="addConfirm" class="btn btn-primary" data-toggle="modal" data-target="#categoryAddConfirmModal">追加する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#確認画面#}
+    <div class="modal fade" id="categoryAddConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">追加確認</h4>
+                </div>
+                <div class="modal-body">
+                    <p>新しいカテゴリを追加しますか？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="addBackToInput" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execAdd" class="btn btn-primary" data-toggle="modal">追加を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# サーバーエラーメッセージ表示画面 #}
+    <button type="button" id="triggerAddErrorModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#categoryAddValidationErrorModal" style="display: none;"></button>
+    <div class="modal fade" id="categoryAddValidationErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">エラー確認</h4>
+                </div>
+                <div class="modal-body">
+                    {# ここにエラーメッセージを動的に挿入する #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeAddErrorModal" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
