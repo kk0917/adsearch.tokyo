@@ -219,7 +219,7 @@
                                 <td style="padding-bottom: 5px;">
                                     {% if event.list_image_path %}
                                         <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">登録済みの画像</p>
-                                        <img id="mainImage" src="{{ event.list_image_path }}" alt="" style="margin-bottom: 20px;">
+                                        <img id="selectedListImage" src="{{ event.list_image_path }}" alt="" style="margin-bottom: 20px;">
                                         <input type="hidden" name="listImagePath" value="{{ event.list_image_path }}">
                                     {% else %}
                                         <p style="margin-bottom: 20px;">リスト画像は未登録です</p>
