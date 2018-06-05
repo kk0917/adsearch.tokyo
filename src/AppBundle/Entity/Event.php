@@ -339,7 +339,7 @@ class Event
                         // デコード時のエラーを回避するためにすべての値を文字列に変換する
                     $_FILES['updateListImage']['error'] = (string) $_FILES['updateListImage']['error'];
                     $_FILES['updateListImage']['size']  = (string) $_FILES['updateListImage']['size'];
-                    $this->setListImageInfo(json_encode($_FILES['listImageInfo']));
+                    $this->setListImageInfo(json_encode($_FILES['updateListImage']));
 
                 } elseif ($_POST['listImagePath']) { // 新しい画像が無く既存の画像があれば再登録する
                     $this->setListImagePath(htmlentities($_POST['listImagePath'], ENT_QUOTES, 'UTF-8'));
