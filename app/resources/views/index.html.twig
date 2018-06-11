@@ -4,11 +4,25 @@
 
 {% block body %}
 <div class="container-fluid">
-    <div class="row sampleRow" style="border: solid 1px;">
+    <div class="row events-index">
         {% for event in upcomingEvents %}
-          <div class="col-xs-12 col-sm-6 col-md-4 event">
-            <img src="" alt="">
-            <p>{{ event.event_name }}</p>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 event" style="cursor: pointer;">
+            <a href="/detail?id={{ event.id }}"></a>
+            <img src="{{ event.list_image_path }}" class="img-responsive" alt="">
+            <div class="box-detail">
+              {% if event.event_name|length >= 14 %}
+                <p class="event-name">{{ event.event_name|slice(0, 14) }}...</p>
+              {% else %}
+                <p class="event-name">{{ event.event_name }}</p>
+              {% endif %}
+              {% for place in places %}
+                {% if event.place_id == place.id %}
+                  <p>{{ place.name }}</p>
+                {% endif %}
+              {% endfor %}
+              <p class="event-from-to">{{ event.date_from|date("Y/m/d") }} - {{ event.date_to|date("Y/m/d") }}</p>
+
+            </div>
           </div>
         {% endfor %}
     </div>

@@ -14,32 +14,76 @@ footer {
   padding-bottom: 2em;
 }
 
-.font-logo {
-  font-family: "Sunflower-Light";
+p {
+  margin: 0;
+  text-align: left;
+}
+
+a:hover {
+  text-decoration: none;
 }
 
 .site-logo {
   text-align: center;
 }
 
-.event {
-  text-align: center;
-  border: solid 1px;
+.font-logo {
+  font-family: "Sunflower-Light";
+  color: #333;
 }
 
-/* .container {
-  width: 970px;
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
-} */
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.event {
+  text-align: center;
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.event a {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+.box-detail {
+  padding: 5px 14px 18px 8px;
+}
+
+.event-name {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
 
 .copyright {
   text-align: center
 }
 
-.row {
-  margin-left: -15px;
-  margin-right: -15px;
+/**
+ * レスポンシブ：グリッドレイアウトのグリッド間余白の調整
+ ****************************************************************************/
+@media (min-width: 768px) {
+  .col-sm-6 {
+    width: 50%;
+  }
+}
+@media (min-width: 992px) {
+  .col-md-4 {
+    width: 33.33333333%;
+  }
+}
+@media (min-width: 1200px) {
+  .col-lg-3 {
+    width: 25%;
+  }
 }
