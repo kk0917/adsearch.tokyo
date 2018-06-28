@@ -7,7 +7,6 @@
     <div class="row events-index">
         {% for event in upcomingEvents %}
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 event" style="cursor: pointer;">
-            <a href="/detail?id={{ event.id }}"></a>
             <img src="{{ event.list_image_path }}" class="img-responsive" alt="">
             <div class="box-detail">
               {% if event.event_name|length >= 14 %}
@@ -18,13 +17,41 @@
               {% for place in places %}
                 {% if event.place_id == place.id %}
                   <p>{{ place.name }}</p>
+                  <input type="hidden" name="place_name" value="{{ place.name }}">
+                  <input type="hidden" name="zip-code" value="{{ place.zip_code1 }}-{{ place.zip_code2 }}">
+                  <input type="hidden" name="address" value="{{ place.prefecture }}{{ place.address1 }}{{ place.address2 }}{{ place.address3 }}{{ place.address4 }}">
+                  <input type="hidden" name="access-information" value="{{ place.access_information|nl2br }}">
                 {% endif %}
               {% endfor %}
               <p class="event-from-to">{{ event.date_from|date("Y/m/d") }} - {{ event.date_to|date("Y/m/d") }}</p>
+              <input type="hidden" name="id" value="{{ event.id }}">
+              <input type="hidden" name="event_name" value="{{ event.event_name }}">
+              <input type="hidden" name="main_image_path" value="{{ event.main_image_path }}">
+              <input type="hidden" name="comment" value="{{ event.comment|nl2br }}">
+              <input type="hidden" name="date_from" value="{{ event.date_from|date("Y/m/d") }}">
+              <input type="hidden" name="date_to" value="{{ event.date_to|date("Y/m/d") }}">
+              <input type="hidden" name="closing-days" value="{{ event.closing_days }}">
+              <input type="hidden" name="business-time" value="{{ event.business_time }}">
+              <input type="hidden" name="entry-fee" value="{{ event.entry_fee }}">
+              <input type="hidden" name="url" value="{{ event.url }}">
 
+              <!-- 詳細モーダル表示用ダミーボタン（JSのbuttonオブジェクトclilck()メソッドでクリック実行） -->
+              <button type="button" name="button" class="btn btn-default button-center" data-toggle="modal" data-target="#eventDetailModal" style="display: none;"></button>
             </div>
           </div>
         {% endfor %}
     </div>
 </div>
+
+<!-- 詳細テンプレート読み込み -->
+{% include('detail.html.twig') %}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/web/js/index.js"></script>
+  <!-- イベント詳細Google Map用JS -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFQQGyjqCKSlBNr9X8pkYG0u65PNT5doE&lang=ja"></script>
+  <script src="/web/js/detail.js"></script>
 {% endblock %}

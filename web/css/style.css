@@ -14,13 +14,76 @@ footer {
   padding-bottom: 2em;
 }
 
-p {
+footer .container {
+  width: 1140px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0;
+}
+
+.copyright {
+  text-align: center;
+}
+
+h5 {
+  border-bottom: solid 1px darkgray;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+h6 {
+  border-left: solid 3px darkgray;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.box-detail p {
   margin: 0;
   text-align: left;
 }
 
 a:hover {
   text-decoration: none;
+}
+
+table {
+  width:100%;
+  margin:10px auto 10px;
+  font-size:1em;
+  line-height:1.4;
+}
+
+tr {
+  border:1px solid #e1dfe0;
+  padding: 30px 0;
+}
+
+th {
+  background:#f1f1f1;
+  font-weight:normal;
+  width:25%;
+  text-align:left;
+  font-size: 1em
+}
+
+th, td {
+  padding:15px 12px;
+  vertical-align:middle;
+  text-align: left;
+  line-height: 1.2;
+}
+
+table td p {
+  /* margin: 0; */
+}
+
+dt {
+  margin-bottom: 5px;
+}
+dd {
+  margin: 10px 0 10px 15px;
 }
 
 .site-logo {
@@ -68,6 +131,17 @@ a:hover {
 .copyright {
   text-align: center
 }
+
+@media (min-width: 992px) {
+  #eventDetailArea {
+    width: 800px;
+  }
+}
+
+#googleMap {
+  height: 300px;
+}
+
 
 /**
  * レスポンシブ：グリッドレイアウトのグリッド間余白の調整
