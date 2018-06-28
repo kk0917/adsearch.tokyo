@@ -97,6 +97,10 @@ input[type="text"].short {
   width: 25%;
 }
 
+img {
+  width: 100%;
+}
+
 .btn-centering {
     display: block;
     margin: 0 auto;
