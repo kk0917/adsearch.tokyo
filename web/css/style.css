@@ -132,6 +132,10 @@ dd {
   text-align: center
 }
 
+.modal-body img {
+  width: 100%;
+}
+
 @media (min-width: 992px) {
   #eventDetailArea {
     width: 800px;
