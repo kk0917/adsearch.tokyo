@@ -1,0 +1,250 @@
+<!-- 会場編集モーダル画面（Bootstrap3仕様参照） -->
+<div id="placeEditArea">
+    {#入力画面#}
+    <div class="modal fade" id="placeEditModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 100px; margin-left: -400px; top: 50%; left: 50%; width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close edit-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">会場編集</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="editPlaceForm" action="edit.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <table>
+                            <input type="hidden" name="id" value="{{ place.id }}">
+                            <tbody>
+                            <tr>
+                                <th>
+                                    会場名<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if place.name %}
+                                        <input type="text" name="name" class="form-control" placeholder="user1234" value="{{ place.name }}">
+                                    {% else %}
+                                        <input type="text" name="name" class="form-control" placeholder="user1234" data-minlength="4" required>
+                                    {% endif %}
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required">必須項目です</li>
+                                        <li data-error="minlength">4文字以上で入力してください</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>住所<span class="required">必須</span></th>
+                                <td>
+                                    <dl class="addressInput">
+                                      <dt>郵便番号</dt>
+                                      <dd>
+                                        {% if place.zip_code1 %}
+                                          <input type="text" id="placeZipCode1" name="zip-code1" class="zip-code1 form-control" placeholder="000" maxlength="3" style="display:inline;width: 60px;" value="{{ place.zip_code1 }}">
+                                        {% else %}
+                                          <input type="text" id="placeZipCode1" name="zip-code1" class="zip-code1 form-control" placeholder="000" maxlength="3" style="display:inline;width: 60px;">
+                                        {% endif %}
+                                        -
+                                        {% if place.zip_code2 %}
+                                          <input type="text" id="placeZipCode2" name="zip-code2" class="zip-code2 form-control" placeholder="0000" maxlength="4" style="display: inline;width: 80px;" value="{{ place.zip_code2 }}">
+                                        {% else %}
+                                          <input type="text" id="placeZipCode2" name="zip-code2" class="zip-code2 form-control" placeholder="0000" maxlength="4" style="display: inline;width: 80px;">
+                                        {% endif %}
+                                        <input type="button" id="zipSearch" class="btn btn-default" value="住所検索" style="display:inline; cursor:pointer;">
+                                      </dd>
+                                      <dt>都道府県</dt>
+                                      <dd>
+                                        <select name="prefecture" class="form-control" style="width: 200px;">
+                                            <option value="">選択してください</option>
+                                            {% if place.prefecture != null %}
+                                                <option value="{{ place.prefecture }}" selected>{{ place.prefecture }}</option>
+                                            {% else %}
+                                                <option value="東京都">東京都</option>
+                                            {% endif %}
+                                        </select>
+                                      </dd>
+                                      <dt>市区郡（町村）</dt>
+                                      <dd>
+                                        {% if place.address1 %}
+                                          <input type="text" name="address1" class="form-control" placeholder="渋谷区" value="{{ place.address1 }}" required>
+                                        {% else %}
+                                          <input type="text" name="address1" class="form-control" placeholder="渋谷区" required>
+                                        {% endif %}
+                                      </dd>
+                                      <dt>町村名</dt>
+                                      <dd>
+                                        {% if place.address2 %}
+                                          <input type="text" name="address2" class="form-control" placeholder="恵比寿" value="{{ place.address2 }}" required>
+                                        {% else %}
+                                          <input type="text" name="address2" class="form-control" placeholder="恵比寿" required>
+                                        {% endif %}
+                                      </dd>
+                                      <dt>丁目 − 番地 − 号</dt>
+                                      <dd>
+                                        {% if place.address3 %}
+                                          <input type="text" name="address3" class="form-control" placeholder="1-2-3" value="{{ place.address3 }}" required>
+                                        {% else %}
+                                          <input type="text" name="address3" class="form-control" placeholder="1-2-3" required>
+                                        {% endif %}
+                                      </dd>
+                                      <dt>建物名 - 号室</dt>
+                                      <dd>
+                                        {% if place.address4 %}
+                                          <input type="text" name="address4" class="form-control" placeholder="マンション" value="{{ place.address4 }}" required>
+                                        {% else %}
+                                          <input type="text" name="address4" class="form-control" placeholder="マンション" required>
+                                        {% endif %}
+                                      </dd>
+                                    </dl>
+                                </td>
+                            </tr>
+                            <tr>
+                              <th>アクセス情報<span class="optional">任意</th>
+                              <td>
+                                {% if place.access_information %}
+                                    <textarea rows="" cols="" name="access-information" class="form-control">{{ place.access_information }}</textarea>
+                                {% else %}
+                                    <textarea rows="" cols="" name="access-information" class="form-control"></textarea>
+                                {% endif %}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>電話番号<span class="required">必須</th>
+                              <td>
+                                {% if place.phone %}
+                                    <input type="text" name="phone" class="form-control" value="{{ place.phone }}">
+                                {% else %}
+                                    <input type="text" name="phone" class="form-control">
+                                {% endif %}
+                              </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    営業日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if place.business_days %}
+                                        <input type="text" name="business-days" class="form-control" value="{{ place.business_days }}">
+                                    {% else %}
+                                        <input type="text" name="business-days" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    休館日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    {% if place.closing_days %}
+                                        <input type="text" name="closing-days" class="form-control" value="{{ place.closing_days }}">
+                                    {% else %}
+                                        <input type="text" name="closing-days" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    URL<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    {% if place.url %}
+                                        <input type="text" name="url" class="form-control" value="{{ place.url }}">
+                                    {% else %}
+                                        <input type="text" name="url" class="form-control">
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    メイン画像<span class="required">必須</span>
+                                </th>
+                                <td style="padding-bottom: 5px;">
+                                    {% if place.main_image_path %}
+                                        <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">登録済みの画像</p>
+                                        <img id="selectedMainImage" src="{{ place.main_image_path }}" alt="" style="margin-bottom: 20px;">
+                                        <input type="hidden" name="mainImagePath" value="{{ place.main_image_path }}">
+                                    {% else %}
+                                        <p style="margin-bottom: 20px;">メイン画像は未登録です</p>
+                                        <input type="hidden" name="mainImagePath">
+                                    {% endif %}
+                                    <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">更新する画像</p>
+                                    <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+                                    <input type="file" name="updateMainImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateMainImage" src="" alt="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    サブ画像<span class="optional">任意</span>
+                                </th>
+                                <td style="padding-bottom: 5px;">
+                                    {% if place.sub_image_path %}
+                                        <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">登録済みの画像</p>
+                                        <img id="subImage" src="{{ place.sub_image_path }}" alt="" style="margin-bottom: 20px;">
+                                        <input type="hidden" name="subImagePath" value="{{ place.sub_image_path }}">
+                                    {% else %}
+                                        <p style="margin-bottom: 20px;">リスト画像は未登録です</p>
+                                        <input type="hidden" name="listImagePath">
+                                    {% endif %}
+                                    <p style="border-bottom: dotted 1px darkgray; padding-bottom: 5px;">更新する画像</p>
+                                    <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+                                    <input type="file" name="updateSubImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateSubImage" src="" alt="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    備考<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    {% if place.comment %}
+                                        <textarea rows="" cols="" name="comment" class="form-control">{{ place.comment }}</textarea>
+                                    {% else %}
+                                        <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default edit-close" data-dismiss="modal">閉じる</button>
+                    <button type="button" id="editConfirm" class="btn btn-primary" data-toggle="modal" data-target="#placeEditConfirmModal">更新する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#確認画面#}
+    <div class="modal fade" id="placeEditConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">更新確認</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{{ place.name }}を更新しますか？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="backToInput" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execUpdate" class="btn btn-primary" data-toggle="modal" value="{{ place.id }}">更新を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# サーバーエラーメッセージ表示画面 #}
+    <button type="button" id="triggerErrorModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#placeEditValidationErrorModal" style="display: none;"></button>
+    <div class="modal fade" id="placeEditValidationErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">エラー確認</h4>
+                </div>
+                <div class="modal-body">
+                    {# ここにエラーメッセージを動的に挿入する #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeErrorModal" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

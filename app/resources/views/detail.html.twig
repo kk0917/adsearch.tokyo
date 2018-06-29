@@ -1,0 +1,59 @@
+<!-- イベント詳細モーダル画面（Bootstrap3仕様参照） -->
+<div id="eventDetailArea">
+    {#詳細画面#}
+    <div class="modal fade" id="eventDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close add-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">イベント詳細</h4>
+                </div>
+                <div class="modal-body">
+                    <h5></h5>
+                    <img src="" class="img--responsive" alt="">
+                    <p class="comment" style="margin: 20px auto;"></p>
+                    <h6>詳細</h6>
+                    <table>
+                        <tbody>
+                          <tr>
+                              <th>会場</th>
+                              <td><p class="place-name" style="margin: 0;"></p></td>
+                          </tr>
+                          <tr>
+                              <th>開催期間</th>
+                              <td>
+                                <p class="duration" style="margin-bottom: 5px;"></p>
+                                <p class="closing-days" style="margin: 0;"></p>
+                              </td>
+                          </tr>
+                          <tr>
+                              <th>開館時間</th>
+                              <td><p class="business-time" style="margin: 0;"></p></td>
+                          </tr>
+                          <tr>
+                              <th>入場料</th>
+                              <td><p class="entry-fee" style="margin: 0;"></p></td>
+                          </tr>
+                          <tr>
+                              <th>詳細URL</th>
+                              <td><p class="url" style="margin: 0;"></p></td>
+                          </tr>
+                          <tr>
+                              <th>アクセス</th>
+                              <td>
+                                <p class="zip-code"></p>
+                                <p class="address"></p>
+                                <div id="googleMap"></div>
+                                <p class="access-information" style="margin-top:15px;"></p>
+                              </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default add-close" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

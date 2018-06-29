@@ -1,0 +1,16 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}エラー画面{{ parent() }}{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active"><a href="/admin/">Home</a></li>
+    <li class="active">エラー画面</li>
+  </ol>
+
+  <h4 class="page-header">エラー画面</h4>
+  <p class="alert alert-danger">{{ error }}</p>
+  <button class="btn btn-default button-center"><a href="/admin/index.php">トップページに戻る</a></button>
+
+
+{% endblock %}

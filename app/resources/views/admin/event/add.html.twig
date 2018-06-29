@@ -1,0 +1,197 @@
+<!-- イベント追加モーダル画面（Bootstrap3仕様参照） -->
+<div id="eventAddArea">
+    {#入力画面#}
+    <div class="modal fade" id="eventAddModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 100px; margin-left: -400px; top: 50%; left: 50%; width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close add-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">イベント追加</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addEventForm" action="add.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>
+                                    イベント名<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" name="eventName" class="form-control" placeholder="user1234" data-minlength="4" required>
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required">必須項目です</li>
+                                        <li data-error="minlength">4文字以上で入力してください</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    カテゴリー<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <p class="info">選択したいカテゴリーをクリックして右枠に移動させてください</p>
+                                    <select id='pre-selected-options' name="categoriesId[]" multiple='multiple' required>
+                                        {% for category in categories %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required"></li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    開催日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <p class="info">枠内をクリックして日付を選択してください</p>
+                                    <input type="text" name="dateFrom" class="form-inline datepicker">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    最終日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <p class="info">枠内をクリックして日付を選択してください</p>
+                                    <input type="text" name="dateTo" class="form-inline datepicker">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    入場料<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" name="entryFee" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    営業時間<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" name="businessTime" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    休館日<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <input type="text" name="closingDays" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    開催場所<span class="required">必須</span>
+                                </th>
+                                <td>
+                                    <select name="placeId">
+                                        <option value="">選択してください</option>
+                                        {% for place in places %}
+                                            <option value="{{ place.id }}">{{ place.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    詳細URL<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    <input type="text" name="url" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    詳細情報<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    ステータス<span class="optional">任意</span>
+                                </th>
+                                <td>
+                                    <label for="new" class="checkbox-inline">
+                                        <input type="checkbox" name="status-new">新着
+                                    </label>
+                                    <label for="popular" class="checkbox-inline">
+                                        <input type="checkbox" name="status-popular">人気
+                                    </label>
+                                    <label for="pickup" class="checkbox-inline">
+                                        <input type="checkbox" name="status-pickup">注目
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    メイン画像<span class="required">必須</span>
+                                </th>
+                                <td style="padding-bottom: 5px;">
+                                    <p class="info">幅：870px、高さ：580px の画像をアップしてください</p>
+                                    <input type="file" name="updateMainImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateMainImage" src="" alt="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    リスト画像<span class="optional">任意</span>
+                                </th>
+                                <td style="padding-bottom: 5px;">
+                                    <p class="info">幅：870px、高さ：580px の画像をアップしてください</p>
+                                    <input type="file" name="updateListImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateListImage" src="" alt="">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default add-close" data-dismiss="modal">閉じる</button>
+                    <button type="button" id="addConfirm" class="btn btn-primary" data-toggle="modal" data-target="#eventAddConfirmModal">追加する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#確認画面#}
+    <div class="modal fade" id="eventAddConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">追加確認</h4>
+                </div>
+                <div class="modal-body">
+                    <p>新しいイベントを追加しますか？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="backToInput" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execAdd" class="btn btn-primary" data-toggle="modal" value="{{ event.id }}">追加を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# サーバーエラーメッセージ表示画面 #}
+    <button type="button" id="triggerErrorModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#eventAddValidationErrorModal" style="display: none;"></button>
+    <div class="modal fade" id="eventAddValidationErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">エラー確認</h4>
+                </div>
+                <div class="modal-body">
+                    {# ここにエラーメッセージを動的に挿入する #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeErrorModal" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}管理者編集画面{{ parent() }}{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active"><a href="/admin/">Home</a></li>
+    <li class="active"><a href="/admin/manager/">管理者一覧</a></li>
+    <li class="active">管理者編集</li>
+  </ol>
+
+  <nav aria-label="...">
+    <ul class="pager">
+      <li class="previous"><a onclick="history.back()"><span aria-hidden="true">&larr;</span>戻る</a></li>
+    </ul>
+  </nav>
+
+  <h4 class="page-header">管理者編集</h4>
+
+  {#エラー時のメッセージ#}
+  {% if errors %}
+    <div class="error-area">
+      <ul>
+        {% for error in errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <form action="editConfirm.php" method="post" class="form-horizontal">
+    <table>
+      <tbody>
+        <input type="hidden" name="id" value="{{ manager.id }}">
+        <tr>
+          <th>
+            ユーザー名<span class="required">必須</span>
+          </th>
+          <td>
+            <p class="info">半角英数字のみ可</p>
+            {% if manager.user_name %}
+              {% set username = manager.user_name %}
+            {% else %}
+              {% set username = manager.username %}
+            {% endif %}
+            <input type="text" name="user_name" class="form-control" placeholder="user1234" value="{{ username }}">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            パスワード<span class="required">必須</span>
+          </th>
+          <td>
+            <p class="info">半角英数字8文字以上</p>
+            <input type="password" name="password" class="form-control"><br>
+            <p>確認のためパスワードをもう一度入力してください</p>
+            <input type="password" name="password_confirm" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            名前<span class="optional">任意</span>
+          </th>
+          <td>
+              {% if manager.last_name %}
+                {% set lastName = manager.last_name %}
+              {% else %}
+                {% set lastName = manager.lastName %}
+              {% endif %}
+            （姓）<input type="text" name="last_name" class="form-control short" value="{{ lastName }}">
+            {% if manager.first_name %}
+              {% set firstName = manager.first_name %}
+            {% else %}
+              {% set firstName = manager.firstName %}
+            {% endif %}
+            （名）<input type="text" name="first_name" class="form-control short" value="{{ firstName }}">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            備考<span class="optional">任意</span>
+          </th>
+          <td>
+            <textarea rows="5" cols="" name="remarks" class="form-control">{{ manager.remarks }}</textarea>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <input type="submit" class="btn btn-primary btn-centering" value="入力内容を確認する">
+  </form>
+
+{% endblock %}

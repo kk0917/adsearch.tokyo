@@ -1,0 +1,67 @@
+{% extends "admin/layout.html.twig" %}
+
+{% block title %}管理者追加 確認画面{{ parent() }}{% endblock %}
+
+{% block body %}
+  <ol class="breadcrumb">
+    <li class="active"><a href="/admin/">Home</a></li>
+    <li class="active">管理者一覧</li>
+    <li class="active">管理者追加</li>
+  </ol>
+
+  <nav aria-label="...">
+    <ul class="pager">
+      <li class="previous"><a onclick="history.back()"><span aria-hidden="true">&larr;</span>戻る</a></li>
+    </ul>
+  </nav>
+
+  <h4 class="page-header">管理者追加 確認画面</h4>
+  <form action="addComplete.php" method="post" class="form-horizontal">
+    <table>
+      <tbody>
+        <tr>
+          <th>
+            ユーザー名</span>
+          </th>
+          <td>
+            {{ manager.username }}
+            <input type="hidden" name="user_name" value="{{ manager.username }}">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            パスワード</span>
+          </th>
+          <td>
+            （非表示）
+            <input type="hidden" name="password" value="{{ manager.password }}">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            名前
+          </th>
+          <td>
+            {{ manager.lastName }} {{ manager.firstName }}
+            <input type="hidden" name="last_name" value="{{ manager.lastName }}">
+            <input type="hidden" name="first_name" value="{{ manager.firstName }}">
+          </td>
+        </tr>
+        <tr>
+          <th>
+            備考
+          </th>
+          <td>
+            {{ manager.remarks }}
+            <input type="hidden" name="remarks" value="{{ manager.remarks }}">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="width:255px; margin:20px auto;">
+        <p>上記の内容で登録してよろしいですか？</p>
+    </div>
+    <input type="submit" class="btn btn-primary btn-centering" value="登録する">
+  </form>
+  
+{% endblock %}

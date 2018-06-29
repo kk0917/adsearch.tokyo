@@ -1,0 +1,161 @@
+<!-- 会場追加モーダル画面（Bootstrap3仕様参照） -->
+<div id="placeAddArea">
+    {#入力画面#}
+    <div class="modal fade" id="placeAddModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-top: 100px; margin-left: -400px; top: 50%; left: 50%; width: 800px">
+                <div class="modal-header">
+                    <button type="button" class="close add-close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">会場追加</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="addPlaceForm" action="add.php" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>会場名<span class="required">必須</span></th>
+                                <td>
+                                    <input type="text" name="name" class="form-control" placeholder="user1234" data-minlength="4" required>
+                                    <ul class="error-message-each-area">
+                                        <li data-error="required">必須項目です</li>
+                                        <li data-error="minlength">4文字以上で入力してください</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>住所<span class="required">必須</span></th>
+                                <td>
+                                    <dl class="addressInput">
+                                      <dt>郵便番号</dt>
+                                      <dd>
+                                        <input type="text" id="placeZipCode1" name="zip-code1" class="zip-code1 form-control" placeholder="000" maxlength="3" style="display:inline;width: 60px;">
+                                        -
+                                        <input type="text" id="placeZipCode2" name="zip-code2" class="zip-code2 form-control" placeholder="0000" maxlength="4" style="display: inline;width: 80px;">
+                                        <input type="button" id="zipSearch" class="btn btn-default" value="住所検索" style="display:inline; cursor:pointer;">
+                                      </dd>
+                                      <dt>都道府県</dt>
+                                      <dd>
+                                        <select name="prefecture" class="form-control" style="width: 200px;">
+                                            <option value="">選択してください</option>
+                                            <option value="東京都">東京都</option>
+                                        </select>
+                                      </dd>
+                                      <dt>市区郡（町村）</dt>
+                                      <dd>
+                                        <input type="text" name="address1" class="form-control" placeholder="渋谷区" required>
+                                      </dd>
+                                      <dt>町村名</dt>
+                                      <dd>
+                                        <input type="text" name="address2" class="form-control" placeholder="恵比寿" required>
+                                      </dd>
+                                      <dt>丁目 − 番地 − 号</dt>
+                                      <dd>
+                                        <input type="text" name="address3" class="form-control" placeholder="1-2-3" required>
+                                      </dd>
+                                      <dt>建物名 - 号室</dt>
+                                      <dd>
+                                        <input type="text" name="address4" class="form-control" placeholder="マンション">
+                                      </dd>
+                                    </dl>
+                                </td>
+                            </tr>
+                            <tr>
+                              <th>アクセス情報</th>
+                              <td>
+                                <textarea name="access-information" class="form-control" placeholder="山手線 恵比寿駅 徒歩5分" rows="3"></textarea>
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>電話番号<span class="required">必須</span></th>
+                              <td>
+                                <input type="text" name="phone" class="form-control">
+                              </td>
+                            </tr>
+                            <tr>
+                                <th>営業日<span class="required">必須</span></th>
+                                <td>
+                                    <input type="text" name="business-days" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>休館日<span class="required">必須</span></th>
+                                <td>
+                                    <input type="text" name="closing-days" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>URL<span class="optional">任意</span></th>
+                                <td>
+                                    <input type="text" name="url" class="form-control">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>メイン画像<span class="required">必須</span></th>
+                                <td style="padding-bottom: 5px;">
+                                    <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+                                    <input type="file" name="updateMainImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateMainImage" src="" alt="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>サブ画像</th>
+                                <td style="padding-bottom: 5px;">
+                                    <p class="info">幅：xx px、高さ：xx px の画像をアップしてください</p>
+                                    <input type="file" name="updateSubImage" style="margin-bottom: 10px;">
+                                    <img id="previewUpdateSubImage" src="" alt="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>備考</th>
+                                <td>
+                                    <textarea rows="" cols="" name="comment" class="form-control"></textarea>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default add-close" data-dismiss="modal">閉じる</button>
+                    <button type="button" id="addConfirm" class="btn btn-primary" data-toggle="modal" data-target="#placeAddConfirmModal">追加する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#確認画面#}
+    <div class="modal fade" id="placeAddConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">追加確認</h4>
+                </div>
+                <div class="modal-body">
+                    <p>新しい会場を追加しますか？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="backToInput" class="btn btn-default" data-dismiss="modal">戻る</button>
+                    <button type="button" id="execAdd" class="btn btn-primary" data-toggle="modal">追加を実行する</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# サーバーエラーメッセージ表示画面 #}
+    <button type="button" id="triggerErrorModal" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#placeAddValidationErrorModal" style="display: none;"></button>
+    <div class="modal fade" id="placeAddValidationErrorModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="margin-top: 200px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+                    <h4 class="modal-title">エラー確認</h4>
+                </div>
+                <div class="modal-body">
+                    {# ここにエラーメッセージを動的に挿入する #}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="closeErrorModal" class="btn btn-default" data-dismiss="modal">閉じる</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
