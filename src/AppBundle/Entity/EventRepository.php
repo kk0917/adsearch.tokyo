@@ -51,6 +51,10 @@ class EventRepository extends Event
             }
         }
 
+        if ($this->getDateTo() < $this->getDateFrom()) {
+            $errors[] = '最終日は開催日より後の日付を指定してください';
+        }
+
         // 入場料：必須チェック
         if ($this->getEntryFee() == null) {
             $errors[] = '入場料を入力してください';
@@ -82,8 +86,14 @@ class EventRepository extends Event
                 if ($mainImageInfo['size'] >= 20000000) {
                     $errors[] = 'メイン画像の容量は2M未満にしてください';
                 }
-                // TODO: メイン画像：幅・高さチェック
-                // getimagesize($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['mainImagePath']['name']);
+
+                // メイン画像：幅・高さチェック
+                $imageSize   = getimagesize($mainImageInfo['tmp_name']);
+                $imageWidth  = $imageSize[0];
+                $imageHeight = $imageSize[1];
+
+                if ($imageWidth  != 870) $errors[] = 'メイン画像の幅は870pxにしてください';
+                if ($imageHeight != 580) $errors[] = 'メイン画像の高さは580pxにしてください';
             }
         } else {
             $errors[] = 'メイン画像を選択してください';
@@ -94,8 +104,14 @@ class EventRepository extends Event
             if ($listImageInfo['size'] >= 20000000) {
                 $errors[] = 'リスト画像の容量は2M未満にしてください';
             }
-            // TODO: リスト画像：幅・高さチェック
-            // getimagesize($_SERVER['DOCUMENT_ROOT'] . '/web/uploads/' . $_FILES['listImagePath']['name']);
+
+            // リスト画像：幅・高さチェック
+            $imageSize   = getimagesize($listImageInfo['tmp_name']);
+            $imageWidth  = $imageSize[0];
+            $imageHeight = $imageSize[1];
+
+            if ($imageWidth  != 870) $errors[] = 'リスト画像の幅は870pxにしてください';
+            if ($imageHeight != 580) $errors[] = 'リスト画像の高さは580pxにしてください';
         }
 
         return $errors;
