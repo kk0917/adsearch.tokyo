@@ -11,13 +11,6 @@ namespace AppBundle\Common;
 use AppBundle\Common\Config;
 
 /**
- * データベースへの接続情報をセット
- */
-Config::set('dsn', 'mysql:host=localhost;dbname=adsearch.tokyo;charset=utf8');
-Config::set('user', 'root');
-Config::set('password', 'admin');
-
-/**
  * Class DatabaseAccessObject データベースへの接続、リクエストを管理
  */
 class DatabaseAccessObject
@@ -35,9 +28,10 @@ class DatabaseAccessObject
     public function __construct()
     {
         // データベース情報
-        $dsn        = Config::get('dsn');
-        $user       = Config::get('user');
-        $password   = Config::get('password'); // 会社テスト環境用
+        $dbInfo   = yaml_parse_file($_SERVER['DOCUMENT_ROOT'] . '/app/config/config.yml');
+        $dsn      = $dbInfo['database']['dsn'];
+        $user     = $dbInfo['database']['user'];
+        $password = $dbInfo['database']['password']; // 会社テスト環境用
 
         // DB接続とエラー発生時のエラーモード設定
         $this->dbh = new \PDO($dsn, $user, $password);
