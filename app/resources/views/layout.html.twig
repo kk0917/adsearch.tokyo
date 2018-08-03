@@ -1,60 +1,69 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{% block title %} | adsearch.tokyo{% endblock %}</title>
-  {% block stylesheets %}
-    <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/web/css/style.css">
-  {% endblock %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123336024-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-123336024-1');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %} | adsearch.tokyo{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="/web/css/style.css">
+    {% endblock %}
 </head>
 <body>
-  <div class="container">
-    <header>
-      <a href="#" class="site-logo"><h1 class="font-logo" style="margin-bottom: 20px;">adsearch.tokyo</h1></a>
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed"data-toggle="collapse"data-target="#navbarEexample8">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarEexample8">
-            <ul class="nav navbar-nav">
-              <li class=".category all" style="font-size: 18px;cursor: pointer;"><a>All</a></li>
-              <li class=".category art" style="font-size: 18px;cursor: pointer;"><a>Art</a></li>
-              <li class=".category design" style="font-size: 18px;cursor: pointer;"><a>Design</a></li>
-            </ul>
-            <!-- <p class="navbar-text navbar-right">ようこそ <a href="#" class="navbar-link">ゲスト</a> さん。</p> -->
-          </div>
-        </div>
-      </nav>
-    </header>
-  </div>
-
-  <div class="container body-container">
-    {% block body %}{% endblock %}
-  </div>
-
-  <footer>
     <div class="container">
-      <div class="row">
-        <div id="footer-copyright" class="copyright">
-          <p>© 2018 - The kkkk Project</p>
-      </div>
-      </div>
+        <header>
+        <a href="#" class="site-logo"><h1 class="font-logo" style="margin-bottom: 20px;">adsearch.tokyo</h1></a>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed"data-toggle="collapse"data-target="#navbarEexample8">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarEexample8">
+                    <ul class="nav navbar-nav">
+                        <li class=".category all" style="font-size: 18px;cursor: pointer;"><a>All</a></li>
+                        <li class=".category art" style="font-size: 18px;cursor: pointer;"><a>Art</a></li>
+                        <li class=".category design" style="font-size: 18px;cursor: pointer;"><a>Design</a></li>
+                    </ul>
+                    <!-- <p class="navbar-text navbar-right">ようこそ <a href="#" class="navbar-link">ゲスト</a> さん。</p> -->
+                </div>
+            </div>
+        </nav>
+        </header>
     </div>
-  </footer>
 
-  {% block javascripts %}
-    <script src="/web/js/jquery-1.12.4.min.js"></script>
-    <script src="/web/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-  {% endblock %}
+    <div class="container body-container">
+    {% block body %}{% endblock %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div id="footer-copyright" class="copyright">
+                    <p>© 2018 - The kkkk Project</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    {% block javascripts %}
+        <script src="/web/js/jquery-1.12.4.min.js"></script>
+        <script src="/web/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    {% endblock %}
 </body>
 </html>
