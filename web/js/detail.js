@@ -32,6 +32,7 @@
        detail.querySelector('.closing-days').textContent     = '( 休館日：' + event.closingDays + ' )';
        detail.querySelector('.business-time').textContent    = event.businessTime;
        detail.querySelector('.entry-fee').textContent        = event.entryFee;
+       detail.querySelector('.url').setAttribute('href', event.url);
        detail.querySelector('.url').textContent              = event.url;
        detail.querySelector('.zip-code').textContent         = event.zipCode;
        detail.querySelector('.address').textContent          = event.address;
