@@ -25,7 +25,19 @@ class EventCategoriesRepository extends EventCategories
                 $values[] = $this->getEventId();
 
                 return $dbObject->run('SELECT', $sql, $values);
-                break;
+
+            case 'SELECT_CATEGORY_NAME':
+                $sql = 'SELECT
+                            ec.event_id,
+                            c.name AS category_name
+                        FROM 
+                            event_categories ec
+                            LEFT JOIN category c on ec.category_id = c.id
+                        WHERE
+                            ec.is_deleted = FALSE
+                        ORDER BY
+                            ec.id';
+                return $dbObject->run('SELECT', $sql);
         }
     }
 }
