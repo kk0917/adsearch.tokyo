@@ -1,18 +1,22 @@
 (function () {
   // ナビゲーションメニューをクリックしてカテゴリでソート
+    // all
   document.getElementById('all').addEventListener('click', function () {
-    $('.category').show('fast');
+    $('.category').fadeIn('fast');
   }, false);
+    // art
   document.getElementById('art').addEventListener('click', function () {
-    $('.category').hide('fast');
-    $('.art').show('fast');
+    $('.category').fadeOut('fast');
+    $('.art').fadeIn('fast');
   }, false);
+    // design
   document.getElementById('design').addEventListener('click', function () {
-    $('.category').hide('fast');
-    $('.design').show('fast');
+    $('.category').fadeOut('fast');
+    $('.design').fadeIn('fast');
   }, false);
+    // advertisement
   document.getElementById('advertisement').addEventListener('click', function () {
-    $('.category').hide('fast');
-    $('.advertisement').show('fast');
+    $('.category').fadeOut('fast');
+    $('.advertisement').fadeIn('fast');
   }, false);
 })();
