@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123336024-1"></script>
     <script>
@@ -14,6 +14,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %} | adsearch.tokyo{% endblock %}</title>
+    <meta name="description" content="adsearch.tokyoは、東京で開催されるアート・デザイン・広告のイベントを紹介するサイトです。">
+    <meta name="keywords" content="art,design,advertisement,tokyo">
+    <!-- OGP基本共通設定 -->
+    <meta property="og:title" content="adsearch.tokyo" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="http://asearch.tokyo " />
+    <meta property="og:image" content="/web/images/adsearch-tokyo.png" />
+    <meta property="og:site_name" content="adsearch.tokyo" />
+    <meta property="og:description" content="adsearch.tokyoは、東京で開催されるアート・デザイン・広告のイベントを紹介するサイトです。" />
+    <!-- Facebook 用設定 -->
+    <meta property="fb:app_id" content="689913624695577" />
+    <!-- ※ Twitter 共通設定 -->
+    <meta name="twitter:card" content="summary large image" />
     {% block stylesheets %}
         <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="/web/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css">
@@ -27,7 +40,7 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed"data-toggle="collapse"data-target="#navbarEexample8">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarEexample8">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
