@@ -5,7 +5,7 @@ Welcome to adsearch.tokyo web application.
 
 ## What is adsearch.tokyo?
 
-http://adsearch.tokyo is the web site to introduce the event of art, design and ... to be held in Tokyo.
+http://adsearch.tokyo is the web site to introduce the event of art, design and advertisement to be held in Tokyo.
 
 ## Dependency
 
