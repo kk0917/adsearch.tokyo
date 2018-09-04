@@ -41,6 +41,18 @@ database:
     password: password
 ```
 
+### Additional folder required
+
+**web/uploads**
+
+```bash
+# execute on shell
+
+$ cd path/to/documentroot/
+$ mkdir web/uploads
+$ chmod -R 777 web/uploads
+```
+
 ## Licence
 
 This software is released under the MIT License, see LICENSE.
