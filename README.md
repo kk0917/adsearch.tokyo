@@ -16,6 +16,14 @@ http://adsearch.tokyo is the web site to introduce the event of art, design and 
 
 ...
 
+### Install PHP packages
+
+```bash
+# execute on shell
+
+$ composer install
+```
+
 ### Additional files required
 
 **.gitignore**
