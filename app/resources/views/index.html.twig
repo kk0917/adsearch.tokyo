@@ -7,7 +7,7 @@
     <div class="row events-index">
         {% for event in upcomingEvents %}
           <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 event category{% for eventCategory in eventCategories %}{% if event.id == eventCategory.event_id %} {{ eventCategory.category_name }}{% endif %}{% endfor %}" style="cursor: pointer;">
-            <img src="{{ event.list_image_path }}" class="img-responsive" alt="">
+            <img src="{% if event.list_image_path %}{{ event.list_image_path }}{% else %}/web/uploads/NoImage.png{% endif %}" class="img-responsive" alt="">
             <div class="box-detail">
               {% if event.event_name|length >= 14 %}
                 <p class="event-name">{{ event.event_name|slice(0, 14) }}...</p>
@@ -26,7 +26,7 @@
               <p class="event-from-to">{{ event.date_from|date("Y/m/d") }} - {{ event.date_to|date("Y/m/d") }}</p>
               <input type="hidden" name="id" value="{{ event.id }}">
               <input type="hidden" name="event_name" value="{{ event.event_name }}">
-              <input type="hidden" name="main_image_path" value="{{ event.main_image_path }}">
+              <input type="hidden" name="main_image_path" value="{% if event.main_image_path %}{{ event.main_image_path }}{% else %}/web/uploads/NoImage.png{% endif %}">
               <input type="hidden" name="comment" value="{{ event.comment|nl2br }}">
               <input type="hidden" name="date_from" value="{{ event.date_from|date("Y/m/d") }}">
               <input type="hidden" name="date_to" value="{{ event.date_to|date("Y/m/d") }}">
