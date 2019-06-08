@@ -5,17 +5,17 @@ jobs:
   deploy:
     steps:
       - add_ssh_keys:
-        fingerprints:
-          - "${KEY_FINGERPRINT}"
+          fingerprints:
+            - "${KEY_FINGERPRINT}"
       - run:
-        name: Deploy Master
-        command: |
-          ssh ${SSH_USER}@${SSH_HOST} "cd ${DOCUMENT_ROOT}; git checkout master; git pull"
+          name: Deploy Master
+          command: |
+            ssh ${SSH_USER}@${SSH_HOST} "cd ${DOCUMENT_ROOT}; git checkout master; git pull"
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - deploy:
-        filters:
-          branches:
-            only: master
+          filters:
+            branches:
+              only: master
