@@ -3,6 +3,7 @@ jobs:
   #build:
     # ...
   deploy:
+    machine: true
     steps:
       - add_ssh_keys:
           fingerprints:
