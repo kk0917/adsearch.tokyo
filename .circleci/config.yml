@@ -11,9 +11,9 @@ jobs:
       - run:
           name: Deploy Master
           command: |
-            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST &&
-            cd $DOCUMENT_ROOT &&
-            git checkout master &&
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST
+            cd $DOCUMENT_ROOT
+            git checkout master
             sudo git pull
 workflows:
   version: 2
