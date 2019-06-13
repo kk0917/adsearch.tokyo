@@ -8,8 +8,9 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "a6:86:52:0b:75:46:2c:9c:8b:13:3d:7a:69:d6:78:b6"
-      - run: ssh-keygen -R $SSH_HOST
-      - run: ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd $DOCUMENT_ROOT; git checkout master; git pull"
+      - run:
+          name: Deploy Master
+          command: ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "yes; cd $DOCUMENT_ROOT; git checkout master; git pull"
 workflows:
   version: 2
   build-and-deploy:
